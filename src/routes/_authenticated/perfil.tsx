@@ -17,10 +17,8 @@ import { useState, Suspense } from "react";
 import {
   ChevronLeft,
   Settings,
-  Plus,
   Pencil,
   MapPin,
-  PawPrint,
   Grid3x3,
   Heart,
   Camera,
@@ -30,7 +28,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/MobileShell";
 import { toast } from "sonner";
 import peludinho from "@/assets/peludinho.png";
-import cachorro from "@/assets/cachorro.png";
 import passaro from "@/assets/passaro.png";
 
 export const Route = createFileRoute("/_authenticated/perfil")({
@@ -45,30 +42,21 @@ const meQuery = {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) throw new Error("not authenticated");
-    const [
-      { data: profile },
-      { data: pets },
-      { data: posts },
-      { data: liked },
-    ] = await Promise.all([
-      supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
-      supabase
-        .from("pets")
-        .select("*")
-        .eq("owner_id", user.id)
-        .order("created_at", { ascending: false }),
-      supabase
-        .from("posts")
-        .select("id, media_url, media_type")
-        .eq("author_id", user.id)
-        .order("created_at", { ascending: false }),
-      supabase
-        .from("likes")
-        .select("post_id, posts!inner(id, media_url, media_type)")
-        .eq("user_id", user.id)
-        .eq("posts.media_type", "video")
-        .order("created_at", { ascending: false }),
-    ]);
+    const [{ data: profile }, { data: posts }, { data: liked }] =
+      await Promise.all([
+        supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
+        supabase
+          .from("posts")
+          .select("id, media_url, media_type")
+          .eq("author_id", user.id)
+          .order("created_at", { ascending: false }),
+        supabase
+          .from("likes")
+          .select("post_id, posts!inner(id, media_url, media_type)")
+          .eq("user_id", user.id)
+          .eq("posts.media_type", "video")
+          .order("created_at", { ascending: false }),
+      ]);
     const likedVideos = (
       (liked ?? []) as unknown as {
         posts: { id: string; media_url: string; media_type: string | null };
@@ -76,11 +64,11 @@ const meQuery = {
     )
       .map((l) => l.posts)
       .filter(Boolean);
-    return { user, profile, pets: pets ?? [], posts: posts ?? [], likedVideos };
+    return { user, profile, posts: posts ?? [], likedVideos };
   },
 };
 
-type Tab = "pets" | "posts" | "liked";
+type Tab = "posts" | "liked";
 
 function PerfilPage() {
   return (
@@ -117,9 +105,9 @@ function PerfilPage() {
 
 function PerfilBody() {
   const { data } = useSuspenseQuery(meQuery);
-  const { profile, pets, posts, likedVideos } = data;
+  const { profile, posts, likedVideos } = data;
   const [editing, setEditing] = useState(false);
-  const [tab, setTab] = useState<Tab>("pets");
+  const [tab, setTab] = useState<Tab>("posts");
 
   return (
     <div className="px-4 pt-3 pb-8">
@@ -154,17 +142,13 @@ function PerfilBody() {
             @{profile?.username ?? "tutor"}
           </p>
 
-          {/* Badges: cidade + nº de pets */}
+          {/* Badges: cidade e atividade */}
           <div className="mt-2 flex flex-wrap justify-center gap-1.5">
             {profile?.city && (
               <span className="nuppy-chip inline-flex items-center gap-1">
                 <MapPin className="size-3" /> {profile.city}
               </span>
             )}
-            <span className="nuppy-chip inline-flex items-center gap-1">
-              <PawPrint className="size-3" /> {pets.length}{" "}
-              {pets.length === 1 ? "pet" : "pets"}
-            </span>
             {posts.length > 0 && (
               <span className="nuppy-chip inline-flex items-center gap-1">
                 <Sparkles className="size-3" /> Ativo
@@ -193,12 +177,7 @@ function PerfilBody() {
       </section>
 
       {/* ================ 2) STATS ================ */}
-      <section className="mt-4 grid grid-cols-3 gap-2">
-        <StatCard
-          icon={<PawPrint className="size-4" />}
-          value={pets.length}
-          label="Pets"
-        />
+      <section className="mt-4 grid grid-cols-2 gap-2">
         <StatCard
           icon={<Grid3x3 className="size-4" />}
           value={posts.length}
@@ -214,12 +193,6 @@ function PerfilBody() {
       {/* ================ 3) ABAS ================ */}
       <nav className="mt-5 flex bg-muted/60 p-1 rounded-full">
         <TabBtn
-          active={tab === "pets"}
-          onClick={() => setTab("pets")}
-          icon={<PawPrint className="size-4" />}
-          label="Pets"
-        />
-        <TabBtn
           active={tab === "posts"}
           onClick={() => setTab("posts")}
           icon={<Grid3x3 className="size-4" />}
@@ -234,7 +207,6 @@ function PerfilBody() {
       </nav>
 
       <div className="mt-4">
-        {tab === "pets" && <PetsGrid pets={pets} />}
         {tab === "posts" && <PostsGrid posts={posts} />}
         {tab === "liked" && <LikedGrid videos={likedVideos} />}
       </div>
@@ -293,86 +265,6 @@ function TabBtn({
   );
 }
 
-function PetsGrid({
-  pets,
-}: {
-  pets: Array<{
-    id: string;
-    name: string;
-    photo_url: string | null;
-    breed: string | null;
-    species: string | null;
-  }>;
-}) {
-  return (
-    <div>
-      <div className="flex justify-end mb-2">
-        <Link
-          to="/pet/novo"
-          className="text-sm font-display text-primary inline-flex items-center gap-1"
-        >
-          <Plus className="size-4" /> Adicionar pet
-        </Link>
-      </div>
-
-      {pets.length === 0 ? (
-        <EmptyState
-          icon={
-            <img
-              src={cachorro}
-              alt="Cachorro"
-              className="size-16 object-contain"
-            />
-          }
-          text="Você ainda não cadastrou nenhum pet"
-          cta={
-            <Link
-              to="/pet/novo"
-              className="nuppy-btn-primary inline-block px-6 py-2 mt-3"
-            >
-              Cadastrar
-            </Link>
-          }
-        />
-      ) : (
-        <div className="grid grid-cols-2 gap-3">
-          {pets.map((pet) => (
-            <Link
-              key={pet.id}
-              to="/pet/$petId"
-              params={{ petId: pet.id }}
-              className="nuppy-card overflow-hidden group"
-            >
-              <div className="aspect-square bg-muted relative">
-                {pet.photo_url ? (
-                  <img
-                    src={pet.photo_url}
-                    alt={pet.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="w-full h-full grid place-items-center text-4xl">
-                    🐾
-                  </div>
-                )}
-              </div>
-              <div className="p-2.5">
-                <p className="font-display text-brand text-sm leading-none">
-                  {pet.name}
-                </p>
-                <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
-                  {pet.breed ?? pet.species ?? "Pet"}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 function PostsGrid({
   posts,
 }: {
@@ -393,7 +285,7 @@ function PostsGrid({
       {posts.map((p) => (
         <div
           key={p.id}
-          className="aspect-square bg-muted overflow-hidden rounded-md relative"
+          className="aspect-square bg-muted overflow-hidden rounded-md flex items-center justify-center"
         >
           {p.media_type === "video" ? (
             <>
@@ -442,7 +334,7 @@ function LikedGrid({
       {videos.map((v) => (
         <div
           key={v.id}
-          className="aspect-square bg-black overflow-hidden rounded-md relative"
+          className="aspect-square bg-black overflow-hidden rounded-md flex items-center justify-center"
         >
           <video
             src={v.media_url}
