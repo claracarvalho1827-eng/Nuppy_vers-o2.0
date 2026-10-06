@@ -23,23 +23,28 @@ import { Suspense } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NuppyLogo } from "@/components/NuppyLogo";
 import { MobileShell } from "@/components/MobileShell";
+import peludinho from "@/assets/peludinho.png";
+import passaro from "@/assets/passaro.png";
+import cachorro from "@/assets/cachorro.png";
+import gato from "@/assets/gato.png";
+import peixe from "@/assets/peixe.png";
 
 export const Route = createFileRoute("/_authenticated/home")({
-  head: () => ({ meta: [{ title: "Início — Nuppy" }] }),  // título que aparece na aba do navegador
+  head: () => ({ meta: [{ title: "Início — Nuppy" }] }), // título que aparece na aba do navegador
   component: HomePage,
 });
 
 /* ----------------------------------------------------------------------------
  * CATEGORIAS DE DESTAQUE (cards grandes no topo)
  *  - label : texto que aparece no canto inferior do card
- *  - emoji : ícone grande do card
+ *  - image : imagem grande do card
  *  - bg    : GRADIENTE de fundo (formato Tailwind: from-COR-INTENSIDADE to-COR-INTENSIDADE)
  *            Ex.: "from-pink-200 to-orange-100" = rosa → laranja
  * -------------------------------------------------------------------------- */
 const categories = [
-  { label: "Adoção",      emoji: "", bg: "from-pink-200 to-orange-100" },
-  { label: "Veterinário", emoji: "", bg: "from-amber-200 to-orange-100" },
-  { label: "Pet Shop",    emoji: "", bg: "from-sky-200 to-amber-100"  },
+  { label: "Adoção", image: cachorro, bg: "from-pink-200 to-orange-100" },
+  { label: "Veterinário", image: gato, bg: "from-amber-200 to-orange-100" },
+  { label: "Pet Shop", image: peixe, bg: "from-sky-200 to-orange-100" },
 ] as const;
 
 function HomePage() {
@@ -98,8 +103,14 @@ function HomePage() {
                 `rounded-2xl bg-gradient-to-br ${c.bg} aspect-square flex flex-col items-end p-2 shadow-card hover:scale-[1.02] transition`
               }
             >
-              <span className="text-3xl ml-auto">{c.emoji}</span>
-              <span className="mt-auto font-display text-sm text-brand">{c.label}</span>
+              <img
+                src={c.image}
+                alt=""
+                className="size-14 ml-auto object-contain drop-shadow-sm"
+              />
+              <span className="mt-auto font-display text-sm text-brand">
+                {c.label}
+              </span>
             </Link>
           ))}
         </div>
@@ -111,7 +122,9 @@ function HomePage() {
         >
           <div>
             <p className="font-display text-brand">Estabelecimentos pet</p>
-            <p className="text-xs text-muted-foreground">ONGs, banho, hotéis, alimentação e mais</p>
+            <p className="text-xs text-muted-foreground">
+              ONGs, banho, hotéis, alimentação e mais
+            </p>
           </div>
           <span className="text-2xl"></span>
         </Link>

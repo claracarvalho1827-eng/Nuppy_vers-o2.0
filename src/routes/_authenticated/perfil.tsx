@@ -29,6 +29,7 @@ import { MobileShell } from "@/components/MobileShell";
 import { toast } from "sonner";
 import peludinho from "@/assets/peludinho.png";
 import passaro from "@/assets/passaro.png";
+import cachorro from "@/assets/cachorro.png";
 
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({ meta: [{ title: "Perfil — Nuppy" }] }),
@@ -323,7 +324,7 @@ function LikedGrid({
     return (
       <EmptyState
         icon={
-          <img src={passaro} alt="Pássaro" className="size-16 object-contain" />
+          <img src={passaro} alt="cachorro" className="size-16 object-contain" />
         }
         text="Você ainda não curtiu nenhum vídeo"
       />
