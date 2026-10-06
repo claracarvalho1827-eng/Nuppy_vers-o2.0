@@ -1,1 +1,0 @@
-import{r as e}from"./useRouter-DeDOna9C.js";import{w as t}from"./index-C0Hagspp.js";var n=e(),r=()=>(0,n.jsx)(t,{});export{r as component};

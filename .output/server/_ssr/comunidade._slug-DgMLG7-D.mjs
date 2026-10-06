@@ -1,4 +1,4 @@
-import { m as createFileRoute, p as lazyRouteComponent } from "../_libs/@tanstack/react-router+[...].mjs";
+import { v as lazyRouteComponent, y as createFileRoute } from "../_libs/@tanstack/react-router+[...].mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/comunidade._slug-DgMLG7-D.js
 var $$splitNotFoundComponentImporter = () => import("./comunidade._slug-DWLl6SqL.mjs");
 var $$splitErrorComponentImporter = () => import("./comunidade._slug-CxQQufk9.mjs");

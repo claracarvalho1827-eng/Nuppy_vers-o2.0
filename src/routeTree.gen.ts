@@ -9,53 +9,55 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedSocialRouteImport } from './routes/_authenticated/social'
-import { Route as AuthenticatedServicosRouteImport } from './routes/_authenticated/servicos'
-import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
-import { Route as AuthenticatedLocalRouteImport } from './routes/_authenticated/local'
-import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
-import { Route as AuthenticatedEstabelecimentosRouteImport } from './routes/_authenticated/estabelecimentos'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedComunidadesRouteImport } from './routes/_authenticated/comunidades'
-import { Route as AuthenticatedConfiguracoesIndexRouteImport } from './routes/_authenticated/configuracoes.index'
-import { Route as AuthenticatedPetNovoRouteImport } from './routes/_authenticated/pet.novo'
-import { Route as AuthenticatedPetPetIdRouteImport } from './routes/_authenticated/pet.$petId'
-import { Route as AuthenticatedEstabelecimentoIdRouteImport } from './routes/_authenticated/estabelecimento.$id'
-import { Route as AuthenticatedConfiguracoesTermosRouteImport } from './routes/_authenticated/configuracoes.termos'
-import { Route as AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport } from './routes/_authenticated/configuracoes.privacidade-politica'
-import { Route as AuthenticatedConfiguracoesPrivacidadeRouteImport } from './routes/_authenticated/configuracoes.privacidade'
-import { Route as AuthenticatedConfiguracoesContatoRouteImport } from './routes/_authenticated/configuracoes.contato'
+import { Route as AuthenticatedEstabelecimentosRouteImport } from './routes/_authenticated/estabelecimentos'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedLocalRouteImport } from './routes/_authenticated/local'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedServicosRouteImport } from './routes/_authenticated/servicos'
+import { Route as AuthenticatedSocialRouteImport } from './routes/_authenticated/social'
 import { Route as AuthenticatedComunidadeSlugRouteImport } from './routes/_authenticated/comunidade.$slug'
+import { Route as AuthenticatedConfiguracoesIndexRouteImport } from './routes/_authenticated/configuracoes.index'
+import { Route as AuthenticatedConfiguracoesContatoRouteImport } from './routes/_authenticated/configuracoes.contato'
+import { Route as AuthenticatedConfiguracoesPrivacidadeRouteImport } from './routes/_authenticated/configuracoes.privacidade'
+import { Route as AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport } from './routes/_authenticated/configuracoes.privacidade-politica'
+import { Route as AuthenticatedConfiguracoesTermosRouteImport } from './routes/_authenticated/configuracoes.termos'
+import { Route as AuthenticatedEstabelecimentoIdRouteImport } from './routes/_authenticated/estabelecimento.$id'
+import { Route as AuthenticatedPetPetIdRouteImport } from './routes/_authenticated/pet.$petId'
+import { Route as AuthenticatedPetNovoRouteImport } from './routes/_authenticated/pet.novo'
 
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedSocialRoute = AuthenticatedSocialRouteImport.update({
-  id: '/social',
-  path: '/social',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedServicosRoute = AuthenticatedServicosRouteImport.update({
-  id: '/servicos',
-  path: '/servicos',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
+const AuthenticatedComunidadesRoute =
+  AuthenticatedComunidadesRouteImport.update({
+    id: '/comunidades',
+    path: '/comunidades',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedEstabelecimentosRoute =
+  AuthenticatedEstabelecimentosRouteImport.update({
+    id: '/estabelecimentos',
+    path: '/estabelecimentos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLocalRoute = AuthenticatedLocalRouteImport.update({
@@ -63,21 +65,25 @@ const AuthenticatedLocalRoute = AuthenticatedLocalRouteImport.update({
   path: '/local',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedEstabelecimentosRoute =
-  AuthenticatedEstabelecimentosRouteImport.update({
-    id: '/estabelecimentos',
-    path: '/estabelecimentos',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedComunidadesRoute =
-  AuthenticatedComunidadesRouteImport.update({
-    id: '/comunidades',
-    path: '/comunidades',
+const AuthenticatedServicosRoute = AuthenticatedServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSocialRoute = AuthenticatedSocialRouteImport.update({
+  id: '/social',
+  path: '/social',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedComunidadeSlugRoute =
+  AuthenticatedComunidadeSlugRouteImport.update({
+    id: '/comunidade/$slug',
+    path: '/comunidade/$slug',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedConfiguracoesIndexRoute =
@@ -86,32 +92,10 @@ const AuthenticatedConfiguracoesIndexRoute =
     path: '/configuracoes/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedPetNovoRoute = AuthenticatedPetNovoRouteImport.update({
-  id: '/pet/novo',
-  path: '/pet/novo',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPetPetIdRoute = AuthenticatedPetPetIdRouteImport.update({
-  id: '/pet/$petId',
-  path: '/pet/$petId',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedEstabelecimentoIdRoute =
-  AuthenticatedEstabelecimentoIdRouteImport.update({
-    id: '/estabelecimento/$id',
-    path: '/estabelecimento/$id',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedConfiguracoesTermosRoute =
-  AuthenticatedConfiguracoesTermosRouteImport.update({
-    id: '/configuracoes/termos',
-    path: '/configuracoes/termos',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedConfiguracoesPrivacidadePoliticaRoute =
-  AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport.update({
-    id: '/configuracoes/privacidade-politica',
-    path: '/configuracoes/privacidade-politica',
+const AuthenticatedConfiguracoesContatoRoute =
+  AuthenticatedConfiguracoesContatoRouteImport.update({
+    id: '/configuracoes/contato',
+    path: '/configuracoes/contato',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedConfiguracoesPrivacidadeRoute =
@@ -120,18 +104,34 @@ const AuthenticatedConfiguracoesPrivacidadeRoute =
     path: '/configuracoes/privacidade',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedConfiguracoesContatoRoute =
-  AuthenticatedConfiguracoesContatoRouteImport.update({
-    id: '/configuracoes/contato',
-    path: '/configuracoes/contato',
+const AuthenticatedConfiguracoesPrivacidadePoliticaRoute =
+  AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport.update({
+    id: '/configuracoes/privacidade-politica',
+    path: '/configuracoes/privacidade-politica',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedComunidadeSlugRoute =
-  AuthenticatedComunidadeSlugRouteImport.update({
-    id: '/comunidade/$slug',
-    path: '/comunidade/$slug',
+const AuthenticatedConfiguracoesTermosRoute =
+  AuthenticatedConfiguracoesTermosRouteImport.update({
+    id: '/configuracoes/termos',
+    path: '/configuracoes/termos',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedEstabelecimentoIdRoute =
+  AuthenticatedEstabelecimentoIdRouteImport.update({
+    id: '/estabelecimento/$id',
+    path: '/estabelecimento/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPetPetIdRoute = AuthenticatedPetPetIdRouteImport.update({
+  id: '/pet/$petId',
+  path: '/pet/$petId',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPetNovoRoute = AuthenticatedPetNovoRouteImport.update({
+  id: '/pet/novo',
+  path: '/pet/novo',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -267,11 +267,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -281,46 +281,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/social': {
-      id: '/_authenticated/social'
-      path: '/social'
-      fullPath: '/social'
-      preLoaderRoute: typeof AuthenticatedSocialRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/servicos': {
-      id: '/_authenticated/servicos'
-      path: '/servicos'
-      fullPath: '/servicos'
-      preLoaderRoute: typeof AuthenticatedServicosRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/perfil': {
-      id: '/_authenticated/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/local': {
-      id: '/_authenticated/local'
-      path: '/local'
-      fullPath: '/local'
-      preLoaderRoute: typeof AuthenticatedLocalRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/home': {
-      id: '/_authenticated/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+    '/_authenticated/comunidades': {
+      id: '/_authenticated/comunidades'
+      path: '/comunidades'
+      fullPath: '/comunidades'
+      preLoaderRoute: typeof AuthenticatedComunidadesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/estabelecimentos': {
@@ -330,11 +302,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEstabelecimentosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/comunidades': {
-      id: '/_authenticated/comunidades'
-      path: '/comunidades'
-      fullPath: '/comunidades'
-      preLoaderRoute: typeof AuthenticatedComunidadesRouteImport
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/local': {
+      id: '/_authenticated/local'
+      path: '/local'
+      fullPath: '/local'
+      preLoaderRoute: typeof AuthenticatedLocalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/servicos': {
+      id: '/_authenticated/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof AuthenticatedServicosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/social': {
+      id: '/_authenticated/social'
+      path: '/social'
+      fullPath: '/social'
+      preLoaderRoute: typeof AuthenticatedSocialRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/comunidade/$slug': {
+      id: '/_authenticated/comunidade/$slug'
+      path: '/comunidade/$slug'
+      fullPath: '/comunidade/$slug'
+      preLoaderRoute: typeof AuthenticatedComunidadeSlugRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/configuracoes/': {
@@ -344,39 +351,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConfiguracoesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/pet/novo': {
-      id: '/_authenticated/pet/novo'
-      path: '/pet/novo'
-      fullPath: '/pet/novo'
-      preLoaderRoute: typeof AuthenticatedPetNovoRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/pet/$petId': {
-      id: '/_authenticated/pet/$petId'
-      path: '/pet/$petId'
-      fullPath: '/pet/$petId'
-      preLoaderRoute: typeof AuthenticatedPetPetIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/estabelecimento/$id': {
-      id: '/_authenticated/estabelecimento/$id'
-      path: '/estabelecimento/$id'
-      fullPath: '/estabelecimento/$id'
-      preLoaderRoute: typeof AuthenticatedEstabelecimentoIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/configuracoes/termos': {
-      id: '/_authenticated/configuracoes/termos'
-      path: '/configuracoes/termos'
-      fullPath: '/configuracoes/termos'
-      preLoaderRoute: typeof AuthenticatedConfiguracoesTermosRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/configuracoes/privacidade-politica': {
-      id: '/_authenticated/configuracoes/privacidade-politica'
-      path: '/configuracoes/privacidade-politica'
-      fullPath: '/configuracoes/privacidade-politica'
-      preLoaderRoute: typeof AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport
+    '/_authenticated/configuracoes/contato': {
+      id: '/_authenticated/configuracoes/contato'
+      path: '/configuracoes/contato'
+      fullPath: '/configuracoes/contato'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesContatoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/configuracoes/privacidade': {
@@ -386,18 +365,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConfiguracoesPrivacidadeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/configuracoes/contato': {
-      id: '/_authenticated/configuracoes/contato'
-      path: '/configuracoes/contato'
-      fullPath: '/configuracoes/contato'
-      preLoaderRoute: typeof AuthenticatedConfiguracoesContatoRouteImport
+    '/_authenticated/configuracoes/privacidade-politica': {
+      id: '/_authenticated/configuracoes/privacidade-politica'
+      path: '/configuracoes/privacidade-politica'
+      fullPath: '/configuracoes/privacidade-politica'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/comunidade/$slug': {
-      id: '/_authenticated/comunidade/$slug'
-      path: '/comunidade/$slug'
-      fullPath: '/comunidade/$slug'
-      preLoaderRoute: typeof AuthenticatedComunidadeSlugRouteImport
+    '/_authenticated/configuracoes/termos': {
+      id: '/_authenticated/configuracoes/termos'
+      path: '/configuracoes/termos'
+      fullPath: '/configuracoes/termos'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesTermosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/estabelecimento/$id': {
+      id: '/_authenticated/estabelecimento/$id'
+      path: '/estabelecimento/$id'
+      fullPath: '/estabelecimento/$id'
+      preLoaderRoute: typeof AuthenticatedEstabelecimentoIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pet/$petId': {
+      id: '/_authenticated/pet/$petId'
+      path: '/pet/$petId'
+      fullPath: '/pet/$petId'
+      preLoaderRoute: typeof AuthenticatedPetPetIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pet/novo': {
+      id: '/_authenticated/pet/novo'
+      path: '/pet/novo'
+      fullPath: '/pet/novo'
+      preLoaderRoute: typeof AuthenticatedPetNovoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }

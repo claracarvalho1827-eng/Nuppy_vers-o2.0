@@ -1,7 +1,7 @@
 import { n as __toESM } from "../_runtime.mjs";
 import { t as supabase } from "./client-CrwDbVDs.mjs";
-import { c as require_jsx_runtime, o as useQueryClient, r as useSuspenseQuery, s as require_react } from "../_libs/react+tanstack__react-query.mjs";
-import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { c as require_react, o as useQueryClient, r as useSuspenseQuery, s as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
+import { x as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { S as Plus, a as Users, et as ChevronLeft, j as MessageCircle } from "../_libs/lucide-react.mjs";
 import { t as toast } from "../_libs/sonner.mjs";
 import { t as MobileShell } from "./MobileShell-Bd3RfVpU.mjs";
