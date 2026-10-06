@@ -36,7 +36,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { NuppyLogo } from "@/components/NuppyLogo";
 import { toast } from "sonner";
-import petsHero from "@/assets/pets-hero.png";
+
 
 // ============================================================================
 // ROTA — metadata e SSR desligado (páginas de auth não precisam SSR).
