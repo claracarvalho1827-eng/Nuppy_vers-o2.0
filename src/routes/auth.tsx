@@ -212,29 +212,12 @@ function AuthPage() {
       {/* Container central com largura máxima estilo mobile */}
       <div className="relative w-full max-w-[480px] min-h-screen px-6 pt-6 pb-10 flex flex-col">
         {/* HERO — só no login (visual mais convidativo) */}
-        {mode === "login" ? (
-          <div className="relative -mx-6 -mt-6 pt-2 pb-4">
-            <img
-              src={petsHero}
-              alt="Cachorro e gatos felizes"
-              className="w-full h-56 object-cover"
-              width={768}
-              height={512}
-            />
-            <div className="absolute inset-x-0 -bottom-8 flex justify-center">
-              <NuppyLogo className="h-28 drop-shadow-md" />
-            </div>
-          </div>
-        ) : (
-          <div className="flex justify-center mt-2 mb-2">
-            <NuppyLogo className="h-24" />
-          </div>
-        )}
+       
 
         {/* CARD principal — tudo dentro dessa "caixa branca" */}
         <div className="mt-10 nuppy-card p-6">
           <h1 className="text-center font-display text-2xl text-brand">
-            {mode === "login" ? "Bem-vindo! 👋" : "Crie sua conta"}
+            {mode === "login" ? "Bem-vindo! " : "Crie sua conta"}
           </h1>
           <p className="text-center text-sm text-muted-foreground mt-1">
             {mode === "login"
