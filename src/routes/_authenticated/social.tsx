@@ -220,7 +220,7 @@ function Feed() {
   if (posts.length === 0) {
     return (
       <div className="p-10 text-center">
-        <div className="text-7xl mb-4">📸</div>
+        <div className="text-7xl mb-4"></div>
         <p className="font-display text-brand text-xl">O feed está esperando você</p>
         <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
           Toque no <strong>+</strong> no topo para publicar a primeira foto ou vídeo do seu pet.
@@ -241,7 +241,7 @@ function Feed() {
           <Loader2 className="size-5 animate-spin text-muted-foreground mx-auto" />
         )}
         {!hasNextPage && (
-          <p className="text-xs text-muted-foreground">Você chegou ao fim 🐾</p>
+          <p className="text-xs text-muted-foreground">Você chegou ao fim </p>
         )}
       </div>
     </div>
