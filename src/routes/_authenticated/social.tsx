@@ -64,6 +64,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/MobileShell";
 import { CommentsSheet } from "@/components/CommentsSheet";
+import passaro from "@/assets/passaro.png";
 import { uploadMedia } from "@/lib/upload";
 import { toast } from "sonner";
 
@@ -220,7 +221,11 @@ function Feed() {
   if (posts.length === 0) {
     return (
       <div className="p-10 text-center">
-        <div className="text-7xl mb-4"></div>
+        <img
+          src={passaro}
+          alt="Pássaro"
+          className="mx-auto mb-4 size-24 object-contain"
+        />
         <p className="font-display text-brand text-xl">O feed está esperando você</p>
         <p className="text-sm text-muted-foreground mt-2 max-w-xs mx-auto">
           Toque no <strong>+</strong> no topo para publicar a primeira foto ou vídeo do seu pet.

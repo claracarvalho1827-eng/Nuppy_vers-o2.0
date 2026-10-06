@@ -5,10 +5,10 @@ import { T as useRouter, Y as redirect, _ as Outlet, b as createRootRouteWithCon
 import { t as Route$18 } from "./comunidade._slug-DgMLG7-D.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as Route$19 } from "./pet._petId-GXe_jxJ2.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-Dnsg4eTz.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-CgS413Iv.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-Bb64J_df.css";
+var styles_default = "/assets/styles-DyWKbgxV.css";
 function reportLovableError(error, context = {}) {
 	if (typeof window === "undefined") return;
 	window.__lovableEvents?.captureException?.(error, {
@@ -240,7 +240,7 @@ var Route$8 = createFileRoute("/_authenticated/servicos")({
 	head: () => ({ meta: [{ title: "Serviços Pet — Nuppy" }] }),
 	component: lazyRouteComponent($$splitComponentImporter$8, "component")
 });
-var $$splitComponentImporter$7 = () => import("./social-C5RVWopi.mjs");
+var $$splitComponentImporter$7 = () => import("./social-cxPOpNct.mjs");
 var Route$7 = createFileRoute("/_authenticated/social")({
 	head: () => ({ meta: [{ title: "Feed — Nuppy" }, {
 		name: "description",

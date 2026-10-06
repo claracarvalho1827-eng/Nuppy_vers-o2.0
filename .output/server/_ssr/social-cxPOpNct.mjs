@@ -6,7 +6,7 @@ import { R as LoaderCircle, S as Plus, U as Heart, Y as Ellipsis, _ as Send, at 
 import { t as toast } from "../_libs/sonner.mjs";
 import { t as MobileShell } from "./MobileShell-Bd3RfVpU.mjs";
 import { n as uploadMedia } from "./upload-CsuYq30c.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/social-C5RVWopi.js
+//#region node_modules/.nitro/vite/services/ssr/assets/social-cxPOpNct.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function CommentsSheet({ postId, onClose }) {
@@ -139,6 +139,7 @@ function CommentsSheet({ postId, onClose }) {
 		})
 	});
 }
+var passaro_default = "/assets/passaro-Cw80xXel.png";
 var PAGE_SIZE = 10;
 var MAX_IMAGE_MB = 8;
 var MAX_VIDEO_MB = 50;
@@ -208,7 +209,11 @@ function Feed() {
 	if (posts.length === 0) return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "p-10 text-center",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "text-7xl mb-4" }),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+				src: passaro_default,
+				alt: "Pássaro",
+				className: "mx-auto mb-4 size-24 object-contain"
+			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 				className: "font-display text-brand text-xl",
 				children: "O feed está esperando você"

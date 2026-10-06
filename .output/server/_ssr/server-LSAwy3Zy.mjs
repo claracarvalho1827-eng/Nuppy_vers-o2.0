@@ -1,29 +1,23 @@
-import { n as createMiddleware } from "./createStart-Dt05N14y.js";
-import "react";
-import { RouterProvider } from "@tanstack/react-router";
-import { jsx } from "react/jsx-runtime";
-import { defineHandlerCallback, renderRouterToStream } from "@tanstack/react-router/ssr/server";
+import "../_runtime.mjs";
+import { c as require_react, s as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
+import { B as _getRenderedMatches, F as getScriptPreloadAttrs, G as isDangerousProtocol, H as invariant, I as getStylesheetHref, J as isRedirect, K as isPromise, L as resolveManifestAssetLink, M as toCrossJSONStream, R as resolveManifestCssLink, V as executeRewriteInput, X as rootRouteId, Z as isNotFound, a as isSsrResponse, c as stripSsrResponseBody, h as RouterProvider, i as disposeSsrResponse, j as toCrossJSONAsync, k as fromJSON, n as bindSsrResponseToRequest, o as normalizeSsrResponse, r as defineHandlerCallback, s as replaceSsrResponse, t as renderRouterToStream, z as waitForReason } from "../_libs/@tanstack/react-router+[...].mjs";
+import { n as createServerHistory } from "../_libs/tanstack__history.mjs";
+import { a as defaultSerovalDeserializerPlugins, i as createRawStreamRPCPlugin, n as attachRouterServerSsrUtils, o as makeSerovalPlugin, r as getNormalizedURL, s as createSerializationAdapter, t as mergeHeaders } from "../_libs/@tanstack/router-core+[...].mjs";
+import { t as createMiddleware } from "./createStart-Dt05N14y.mjs";
+import { n as toResponse, t as H3Event } from "../_libs/h3-v2.mjs";
+import process from "node:process";
 import { AsyncLocalStorage } from "node:async_hooks";
-import { H3Event, toResponse } from "h3-v2";
-import { _getRenderedMatches, createSerializationAdapter, executeRewriteInput, getScriptPreloadAttrs, getStylesheetHref, invariant, isDangerousProtocol, isNotFound, isPromise, isRedirect, resolveManifestAssetLink, resolveManifestCssLink, rootRouteId } from "@tanstack/router-core";
-import { makeSerovalPlugin, mergeHeaders } from "@tanstack/router-core/ssr/client";
-import { fromJSON, toCrossJSONAsync, toCrossJSONStream } from "seroval";
-import { attachRouterServerSsrUtils, bindSsrResponseToRequest, createRawStreamRPCPlugin, defaultSerovalDeserializerPlugins, disposeSsrResponse, getNormalizedURL, isSsrResponse, normalizeSsrResponse, replaceSsrResponse, stripSsrResponseBody, waitForRequest } from "@tanstack/router-core/ssr/server";
-import { createServerHistory } from "@tanstack/history";
-//#region node_modules/@tanstack/react-start-server/dist/esm/StartServer.js
+require_react();
+var import_jsx_runtime = require_jsx_runtime();
 function StartServer(props) {
-	return /* @__PURE__ */ jsx(RouterProvider, { router: props.router });
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RouterProvider, { router: props.router });
 }
-//#endregion
-//#region node_modules/@tanstack/react-start-server/dist/esm/defaultStreamHandler.js
 var defaultStreamHandler = defineHandlerCallback(({ request, router, responseHeaders }) => renderRouterToStream({
 	request,
 	router,
 	responseHeaders,
-	children: /* @__PURE__ */ jsx(StartServer, { router })
+	children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StartServer, { router })
 }));
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/request-response.js
 var GLOBAL_EVENT_STORAGE_KEY = Symbol.for("tanstack-start:event-storage");
 var globalObj$1 = globalThis;
 if (!globalObj$1[GLOBAL_EVENT_STORAGE_KEY]) globalObj$1[GLOBAL_EVENT_STORAGE_KEY] = new AsyncLocalStorage();
@@ -93,11 +87,7 @@ function getH3Event() {
 function getResponse() {
 	return getH3Event().res;
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/constants.js
 var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/router-manifest.js
 /**
 * @description Returns the router manifest data that should be sent to the client.
 * This includes only the assets and preloads for the current route and any
@@ -108,7 +98,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("./_tanstack-start-manifest_v-xWRH4uq6.js");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-DAn2_pQU.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -127,8 +117,6 @@ async function getStartManifest(matchedRoutes) {
 		routes: manifestRoutes
 	};
 }
-//#endregion
-//#region \0%23tanstack-start-server-fn-resolver
 var manifest = {};
 async function getServerFnById(id, access) {
 	const serverFnInfo = manifest[id];
@@ -139,8 +127,6 @@ async function getServerFnById(id, access) {
 	if (!action) throw new Error("Server function module export not resolved for serverFn ID: " + id);
 	return action;
 }
-//#endregion
-//#region node_modules/@tanstack/start-client-core/dist/esm/constants.js
 var TSS_FORMDATA_CONTEXT = "__TSS_CONTEXT";
 var TSS_SERVER_FUNCTION = Symbol.for("TSS_SERVER_FUNCTION");
 var X_TSS_SERIALIZED = "x-tss-serialized";
@@ -153,8 +139,6 @@ var MAX_FRAME_PAYLOAD_SIZE = 16 * 1024 * 1024;
 var MAX_FRAMED_STREAMS = 1024;
 /** Full Content-Type header value with version parameter */
 var TSS_CONTENT_TYPE_FRAMED_VERSIONED = `${TSS_CONTENT_TYPE_FRAMED}; v=1`;
-//#endregion
-//#region node_modules/@tanstack/start-storage-context/dist/esm/async-local-storage.js
 var GLOBAL_STORAGE_KEY = Symbol.for("tanstack-start:start-storage-context");
 var globalObj = globalThis;
 if (!globalObj[GLOBAL_STORAGE_KEY]) globalObj[GLOBAL_STORAGE_KEY] = new AsyncLocalStorage();
@@ -167,17 +151,11 @@ function getStartContext(opts) {
 	if (!context && opts?.throwIfNotFound !== false) throw new Error(`No Start context found in AsyncLocalStorage. Make sure you are using the function within the server runtime.`);
 	return context;
 }
-//#endregion
-//#region node_modules/@tanstack/start-client-core/dist/esm/getStartOptions.js
 var getStartOptions = () => getStartContext().startOptions;
-//#endregion
-//#region node_modules/@tanstack/start-client-core/dist/esm/getDefaultSerovalPlugins.js
 /** Start's serialization adapters followed by `routerPlugins`. */
 function getSerovalPlugins(routerPlugins) {
 	return [...(getStartOptions()?.serializationAdapters)?.map(makeSerovalPlugin) ?? [], ...routerPlugins];
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/frame-protocol.js
 /**
 * Binary frame protocol for multiplexing JSON and raw streams over HTTP.
 *
@@ -375,8 +353,6 @@ function createMultiplexedStream(recordStream, options = {}) {
 		}
 	});
 }
-//#endregion
-//#region node_modules/@tanstack/start-client-core/dist/esm/safeObjectMerge.js
 function isSafeKey(key) {
 	return key !== "__proto__" && key !== "constructor" && key !== "prototype";
 }
@@ -402,8 +378,6 @@ function createNullProtoObject(source) {
 	for (const key of Object.keys(source)) if (isSafeKey(key)) obj[key] = source[key];
 	return obj;
 }
-//#endregion
-//#region node_modules/@tanstack/start-client-core/dist/esm/createServerFn.js
 function flattenMiddlewares(middlewares, maxDepth = 100) {
 	const seen = /* @__PURE__ */ new Set();
 	const flattened = [];
@@ -420,8 +394,6 @@ function flattenMiddlewares(middlewares, maxDepth = 100) {
 	recurse(middlewares, 0);
 	return flattened;
 }
-//#endregion
-//#region node_modules/@tanstack/start-client-core/dist/esm/createCsrfMiddleware.js
 var innerCreateCsrfMiddleware = (opts = {}) => {
 	return createMiddleware().server(async (ctx) => {
 		const csrfCtx = ctx;
@@ -475,8 +447,6 @@ async function getFailureResponse(opts, ctx) {
 	if (typeof opts.failureResponse === "function") return opts.failureResponse(ctx);
 	return opts.failureResponse?.clone() ?? new Response("Forbidden", { status: 403 });
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/server-functions-handler.js
 var serovalPlugins = void 0;
 var FORM_DATA_CONTENT_TYPES = ["multipart/form-data", "application/x-www-form-urlencoded"];
 var MAX_PAYLOAD_SIZE = 1e6;
@@ -775,8 +745,6 @@ function isNotFoundResponse(error) {
 	response.headers.set("Content-Type", "application/json");
 	return response;
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/early-hints.js
 var LINK_PARAM_TOKEN_RE = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
 var PRELOAD_AS_VALUES = new Set([
 	"fetch",
@@ -1025,8 +993,6 @@ function createEarlyHintsCollector(opts) {
 		}
 	};
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/transformAssetUrls.js
 function normalizeTransformAssetResult(result) {
 	if (typeof result === "string") return { href: result };
 	return result;
@@ -1184,8 +1150,6 @@ function buildManifest(source, opts) {
 		routes: { ...source.routes }
 	};
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/inlineCss.js
 function getStaticHandlerInlineCssDefault(handlerInlineCss) {
 	if (typeof handlerInlineCss === "function") return;
 	return handlerInlineCss ?? true;
@@ -1195,8 +1159,6 @@ async function resolveInlineCssForRequest(opts) {
 	if (typeof opts.handlerInlineCss === "function") return await opts.handlerInlineCss({ request: opts.request });
 	return opts.handlerInlineCss ?? true;
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/finalManifest.js
 function createCachedBaseManifestLoader(loadBaseManifest) {
 	let baseManifestPromise;
 	return () => {
@@ -1316,8 +1278,6 @@ function warmupFinalManifest(opts) {
 	if (opts.onError) warmupPromise.catch(opts.onError);
 	return warmupPromise;
 }
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/serializer/ServerFunctionSerializationAdapter.js
 var ServerFunctionSerializationAdapter = createSerializationAdapter({
 	key: "$TSS/serverfn",
 	test: (v) => {
@@ -1340,8 +1300,6 @@ var ServerFunctionSerializationAdapter = createSerializationAdapter({
 		return fn;
 	}
 });
-//#endregion
-//#region node_modules/@tanstack/start-server-core/dist/esm/createStartHandler.js
 function getStartResponseHeaders(opts) {
 	return mergeHeaders({ "Content-Type": "text/html; charset=utf-8" }, ..._getRenderedMatches(opts.router.stores.matches.get()).map((match) => {
 		return match.headers;
@@ -1355,9 +1313,9 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-Dnsg4eTz.js"),
-		import("./start-DpnyXMmu.js"),
-		import("./empty-plugin-adapters-D9UWiqvJ.js")
+		import("./router-CgS413Iv.mjs"),
+		import("./start-DpnyXMmu.mjs"),
+		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);
 	return {
 		routerEntry,
@@ -1488,7 +1446,7 @@ async function executeMiddleware(middlewares, terminal, ctx, signal, terminalNex
 			} else if (!isPromise(pending)) {
 				result = pending;
 				signal.throwIfAborted();
-			} else result = await waitForRequest(pending, signal, disposeAbandonedResult, disposeAbandonedResult);
+			} else result = await waitForReason(pending, signal, disposeAbandonedResult, disposeAbandonedResult);
 		} catch (err) {
 			reconcileCtxResponse();
 			if (signal.aborted) {
@@ -1575,13 +1533,13 @@ function createStartHandler(cbOrOptions) {
 			const href = url.pathname + url.search + url.hash;
 			const origin = url.origin;
 			if (handledProtocolRelativeURL) return Response.redirect(url, 308);
-			const entries = await waitForRequest(getEntries(), signal);
+			const entries = await waitForReason(getEntries(), signal);
 			const isServerFnRequest = !!SERVER_FN_BASE && url.pathname.startsWith(SERVER_FN_BASE);
 			const startInstance = entries.startEntry.startInstance;
 			let startOptions;
 			if (startInstance) {
 				const pendingStartOptions = startInstance.getOptions();
-				startOptions = isPromise(pendingStartOptions) ? await waitForRequest(pendingStartOptions, signal) : pendingStartOptions;
+				startOptions = isPromise(pendingStartOptions) ? await waitForReason(pendingStartOptions, signal) : pendingStartOptions;
 				signal.throwIfAborted();
 			} else startOptions = {};
 			const { hasPluginAdapters, pluginSerializationAdapters } = entries.pluginAdapters;
@@ -1600,7 +1558,7 @@ function createStartHandler(cbOrOptions) {
 			const getRouter = () => {
 				routerPromise ??= (async () => {
 					signal.throwIfAborted();
-					const requestRouter = await waitForRequest(entries.routerEntry.getRouter(), signal);
+					const requestRouter = await waitForReason(entries.routerEntry.getRouter(), signal);
 					let isShell = IS_SHELL_ENV;
 					if (IS_PRERENDERING && !isShell) isShell = request.headers.get(HEADERS.TSS_SHELL) === "true";
 					const history = createServerHistory(href);
@@ -1641,7 +1599,7 @@ function createStartHandler(cbOrOptions) {
 			} else {
 				const executeRouter = async (serverContext, matchedRoutes) => {
 					if (!/(^|,)\s*(\*\/\*|text\/html)/.test(request.headers.get("Accept") || "*/*")) return normalizeSsrResponse(Response.json({ error: "Only HTML requests are supported here" }, { status: 406 }));
-					const manifest = await waitForRequest(resolveManifestForRequest({
+					const manifest = await waitForReason(resolveManifestForRequest({
 						request,
 						requestInlineCss: requestOpts?.inlineCss,
 						getBaseManifest: () => getBaseManifest(matchedRoutes)
@@ -1675,7 +1633,7 @@ function createStartHandler(cbOrOptions) {
 					earlyHints?.appendResponseHeaders(responseHeaders);
 					signal.throwIfAborted();
 					const disposeLate = createLateResponseDisposer(signal);
-					return normalizeSsrResponse(await waitForRequest(cb({
+					return normalizeSsrResponse(await waitForReason(cb({
 						request,
 						router: routerInstance,
 						responseHeaders
@@ -1812,8 +1770,6 @@ async function handleServerRoutes({ getRouter, request, url, executeRouter, cont
 		handlerType: "router"
 	}, request.signal, terminalNext));
 }
-//#endregion
-//#region node_modules/@tanstack/react-start/dist/default-entry/esm/server.js
 var fetch = createStartHandler(defaultStreamHandler);
 function createServerEntry(entry) {
 	return { async fetch(...args) {

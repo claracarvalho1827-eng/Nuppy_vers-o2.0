@@ -1,4 +1,4 @@
-//#region \0tanstack-start-manifest:v
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DAn2_pQU.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/__root.tsx",
@@ -8,7 +8,7 @@ var tsrStartManifest = () => ({ routes: {
 			"/auth"
 		],
 		preloads: [
-			"/assets/index-BFqqJ66d.js",
+			"/assets/index-BcXD7wD4.js",
 			"/assets/useRouter-Cox3-v4z.js",
 			"/assets/useSelector-C42uiuO-.js",
 			"/assets/link-gyWqUBjk.js",
@@ -17,13 +17,13 @@ var tsrStartManifest = () => ({ routes: {
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-BFqqJ66d.js"
+			src: "/assets/index-BcXD7wD4.js"
 		} }]
 	},
 	"/": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/index.tsx",
 		children: void 0,
-		preloads: ["/assets/routes-eZ8DKo6v.js"]
+		preloads: ["/assets/routes-DyP0tLWm.js"]
 	},
 	"/_authenticated": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/route.tsx",
@@ -45,39 +45,39 @@ var tsrStartManifest = () => ({ routes: {
 			"/_authenticated/pet/novo",
 			"/_authenticated/configuracoes/"
 		],
-		preloads: ["/assets/route-Ap51EFH8.js"]
+		preloads: ["/assets/route-iMUk7D4s.js"]
 	},
 	"/auth": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/auth.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/auth-INkuqBaD.js",
+			"/assets/auth-BXVnyboO.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/lock-DAUHU5CQ.js",
 			"/assets/mail-D0b7a9l8.js",
-			"/assets/dist-BnMhB_2R.js"
+			"/assets/dist-CCZG40yS.js"
 		]
 	},
 	"/_authenticated/comunidades": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/comunidades.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/comunidades-8j2RZYw0.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/comunidades-CaOYxM0c.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/chevron-left-BAVeUUid.js",
 			"/assets/message-circle-Be6ySoEU.js",
 			"/assets/plus-BGJjBWga.js",
-			"/assets/dist-BnMhB_2R.js",
-			"/assets/ImageUpload-B5cGOkyz.js"
+			"/assets/dist-CCZG40yS.js",
+			"/assets/ImageUpload-0PDGVp6r.js"
 		]
 	},
 	"/_authenticated/estabelecimentos": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/estabelecimentos.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/estabelecimentos-CFDts-eO.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/estabelecimentos-DS4i1nff.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
@@ -100,8 +100,8 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/local.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/local-1WmO-Zcn.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/local-0MPqp4ly.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
@@ -115,67 +115,67 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/perfil.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/perfil-CPuUEc5k.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/perfil-toQqzSnS.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/camera-oCUuiOsu.js",
 			"/assets/chevron-left-BAVeUUid.js",
 			"/assets/plus-BGJjBWga.js",
 			"/assets/sparkles-C3tWqZIi.js",
-			"/assets/dist-BnMhB_2R.js"
+			"/assets/dist-CCZG40yS.js"
 		]
 	},
 	"/_authenticated/servicos": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/servicos.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/servicos-BysY68MH.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/servicos-DXIHyrsw.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
 			"/assets/instagram-JzZQdVYE.js",
 			"/assets/message-circle-Be6ySoEU.js",
 			"/assets/plus-BGJjBWga.js",
-			"/assets/dist-BnMhB_2R.js",
-			"/assets/ImageUpload-B5cGOkyz.js"
+			"/assets/dist-CCZG40yS.js",
+			"/assets/ImageUpload-0PDGVp6r.js"
 		]
 	},
 	"/_authenticated/social": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/social.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/social-CXsKJMiY.js",
-			"/assets/useBaseQuery-BUAm59o6.js",
+			"/assets/social-BqD0KsNW.js",
+			"/assets/useBaseQuery-DVDlEFxy.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/camera-oCUuiOsu.js",
 			"/assets/chevron-left-BAVeUUid.js",
-			"/assets/upload-IMueKCZB.js",
+			"/assets/upload-BFmbpUd8.js",
 			"/assets/message-circle-Be6ySoEU.js",
 			"/assets/plus-BGJjBWga.js",
 			"/assets/video-BpF412qZ.js",
 			"/assets/trash-2-DkN-JJS9.js",
 			"/assets/sparkles-C3tWqZIi.js",
 			"/assets/x-02ASq3Zl.js",
-			"/assets/dist-BnMhB_2R.js"
+			"/assets/dist-CCZG40yS.js"
 		]
 	},
 	"/_authenticated/comunidade/$slug": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/comunidade.$slug.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/comunidade._slug-7LrzrnUI.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/comunidade._slug-Bzb-EyII.js",
 			"/assets/MobileShell-BP_gr8mt.js",
+			"/assets/comunidade._slug-CQAXiMwu.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
-			"/assets/upload-IMueKCZB.js",
+			"/assets/upload-BFmbpUd8.js",
 			"/assets/video-BpF412qZ.js",
 			"/assets/x-02ASq3Zl.js",
-			"/assets/dist-BnMhB_2R.js",
-			"/assets/comunidade._slug-Bzb-EyII.js",
+			"/assets/dist-CCZG40yS.js",
 			"/assets/comunidade._slug-ChIB4YOZ.js",
 			"/assets/triangle-alert-Ca3lsCHo.js"
 		]
@@ -225,8 +225,8 @@ var tsrStartManifest = () => ({ routes: {
 			"/assets/estabelecimento._id-CzSuw3Eg.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/estabelecimento._id-DNVNGL47.js",
-			"/assets/estabelecimento._id-SaXgG2HH.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/estabelecimento._id-oWzzLlfl.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
 			"/assets/chevron-right-DJ1ncv55.js",
@@ -234,15 +234,15 @@ var tsrStartManifest = () => ({ routes: {
 			"/assets/phone-LR7jpdqb.js",
 			"/assets/trash-2-DkN-JJS9.js",
 			"/assets/star-D-jMriRB.js",
-			"/assets/dist-BnMhB_2R.js"
+			"/assets/dist-CCZG40yS.js"
 		]
 	},
 	"/_authenticated/pet/$petId": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/pet.$petId.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/pet._petId-D1VvzGe_.js",
-			"/assets/useSuspenseQuery-SiJGnKGZ.js",
+			"/assets/pet._petId-ly4VeNxT.js",
+			"/assets/useSuspenseQuery-UF5Smg7-.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
@@ -256,21 +256,21 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/pet.novo.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/pet.novo-Dvf-FqEm.js",
+			"/assets/pet.novo-8zNGRn5C.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
 			"/assets/chevron-right-DJ1ncv55.js",
 			"/assets/stethoscope-F8rh633Z.js",
-			"/assets/dist-BnMhB_2R.js",
-			"/assets/ImageUpload-B5cGOkyz.js"
+			"/assets/dist-CCZG40yS.js",
+			"/assets/ImageUpload-0PDGVp6r.js"
 		]
 	},
 	"/_authenticated/configuracoes/": {
 		filePath: "/workspaces/Nuppy_vers-o2.0/src/routes/_authenticated/configuracoes.index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/configuracoes.index-DblN0vG4.js",
+			"/assets/configuracoes.index-CfMSPD1-.js",
 			"/assets/MobileShell-BP_gr8mt.js",
 			"/assets/user-0MWSeJgV.js",
 			"/assets/chevron-left-BAVeUUid.js",
