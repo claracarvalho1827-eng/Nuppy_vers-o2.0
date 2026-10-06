@@ -37,9 +37,9 @@ export const Route = createFileRoute("/_authenticated/home")({
  *            Ex.: "from-pink-200 to-orange-100" = rosa → laranja
  * -------------------------------------------------------------------------- */
 const categories = [
-  { label: "Adoção",      emoji: "🐾", bg: "from-pink-200 to-orange-100" },
-  { label: "Veterinário", emoji: "🩺", bg: "from-amber-200 to-orange-100" },
-  { label: "Pet Shop",    emoji: "🛍️", bg: "from-sky-200 to-amber-100"  },
+  { label: "Adoção",      emoji: "", bg: "from-pink-200 to-orange-100" },
+  { label: "Veterinário", emoji: "", bg: "from-amber-200 to-orange-100" },
+  { label: "Pet Shop",    emoji: "", bg: "from-sky-200 to-amber-100"  },
 ] as const;
 
 function HomePage() {
@@ -113,110 +113,9 @@ function HomePage() {
             <p className="font-display text-brand">Estabelecimentos pet</p>
             <p className="text-xs text-muted-foreground">ONGs, banho, hotéis, alimentação e mais</p>
           </div>
-          <span className="text-2xl">🏪</span>
+          <span className="text-2xl"></span>
         </Link>
-      </section>
-
-      {/* ============== ADOÇÃO DE PETS ============== */}
-      <section className="px-4 mt-6">
-        <div className="nuppy-card p-4">
-          {/* Cabeçalho do card: título à esquerda + link "Ver tudo" à direita */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">🐾</span>
-              <h2 className="font-display text-lg text-brand">Adoção de Pets</h2>
-            </div>
-            {/* 👉 LINK "Ver tudo" — leva pro feed social.
-                 Cor laranja vem de `text-primary`. */}
-            <Link to="/social" className="text-sm font-display text-primary">
-              Ver tudo →
-            </Link>
-          </div>
-
-          {/* Suspense = enquanto carrega do banco, mostra esqueletos cinzas pulsando */}
-          <Suspense fallback={<div className="h-40 mt-3 grid grid-cols-2 gap-3"><Skel /><Skel /></div>}>
-            <PetsForAdoption />
-          </Suspense>
-        </div>
       </section>
     </MobileShell>
-  );
-}
-
-/* "Esqueletinho" cinza que pulsa enquanto os dados ainda estão chegando */
-function Skel() {
-  return <div className="rounded-2xl bg-muted animate-pulse" />;
-}
-
-/* ----------------------------------------------------------------------------
- * BUSCA DOS PETS NO BANCO DE DADOS
- *  - tabela: `pets`
- *  - pega os 6 mais recentes
- *  - mostra só os 2 primeiros na home (resto fica pro /social)
- * -------------------------------------------------------------------------- */
-const adoptionQuery = {
-  queryKey: ["adoption-pets"],
-  queryFn: async () => {
-    const { data, error } = await supabase
-      .from("pets")
-      .select("id, name, age, city, photo_url")
-      .order("created_at", { ascending: false })
-      .limit(6);
-    if (error) throw error;
-    return data ?? [];
-  },
-};
-
-function PetsForAdoption() {
-  const { data } = useSuspenseQuery(adoptionQuery);
-
-  // SE NÃO TEM NENHUM PET cadastrado, mostra mensagem amigável
-  if (data.length === 0) {
-    return (
-      <div className="mt-3 rounded-2xl bg-secondary p-6 text-center text-sm text-muted-foreground">
-        Nenhum pet cadastrado ainda.{" "}
-        <Link to="/perfil" className="text-primary font-display">Cadastre o seu →</Link>
-      </div>
-    );
-  }
-
-  return (
-    // Grade de 2 cards lado a lado
-    <div className="mt-3 grid grid-cols-2 gap-3">
-      {data.slice(0, 2).map((pet) => (
-        <Link
-          key={pet.id}
-          to="/pet/$petId"
-          params={{ petId: pet.id }}
-          className="rounded-2xl bg-accent p-2 relative block"
-        >
-          {/* FOTO do pet (quadrada). Se não tiver foto, mostra emoji 🐶 */}
-          <div className="aspect-square rounded-xl overflow-hidden bg-muted">
-            {pet.photo_url ? (
-              <img src={pet.photo_url} alt={pet.name} className="w-full h-full object-cover" loading="lazy" />
-            ) : (
-              <div className="w-full h-full grid place-items-center text-4xl">🐶</div>
-            )}
-          </div>
-
-          {/* ❤️ CORAÇÃO ROSA no canto superior direito (cor `text-love`) */}
-          <Heart className="size-5 absolute top-3 right-3 text-love fill-love" />
-
-          {/* INFO embaixo da foto: nome + idade + cidade */}
-          <div className="mt-2 px-1">
-            <p className="font-display text-brand">{pet.name}</p>
-            <p className="text-xs text-muted-foreground flex items-center justify-between">
-              <span>{pet.age ?? "—"}</span>
-              {pet.city && (
-                <span className="flex items-center gap-1">
-                  <MapPin className="size-3" />
-                  {pet.city}
-                </span>
-              )}
-            </p>
-          </div>
-        </Link>
-      ))}
-    </div>
   );
 }
