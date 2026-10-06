@@ -43,11 +43,22 @@ var TRANSFORMATION_PLUGINS_BY_FRAMEWORK = {
 function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 	let ROOT = process.cwd();
 	let userConfig;
+	let addHmr;
+	let hmrStyle;
+	let compilerPlugins;
+	let virtualRouteCompilerPlugins;
+	let isProduction = process.env.NODE_ENV === "production";
 	function initUserConfig() {
 		if (typeof options === "function") userConfig = options();
 		else userConfig = require_config.getConfig(options, ROOT);
+		addHmr = (userConfig.codeSplittingOptions?.addHmr ?? true) && !isProduction;
+		hmrStyle = userConfig.plugin?.hmr?.style ?? "vite";
+		compilerPlugins = [...addHmr ? require_framework_plugins.getFrameworkHmrCompilerPlugins({
+			targetFramework: userConfig.target,
+			hmrStyle
+		}) ?? [] : [], ...userConfig.codeSplittingOptions?.compilerPlugins ?? []];
+		virtualRouteCompilerPlugins = compilerPlugins.filter((plugin) => plugin.onVirtualRouteSplitNode);
 	}
-	const isProduction = process.env.NODE_ENV === "production";
 	const sharedBindingsMap = /* @__PURE__ */ new Map();
 	const getGlobalCodeSplitGroupings = () => {
 		return userConfig.codeSplittingOptions?.defaultBehavior || require_constants.defaultCodeSplitGroupings;
@@ -84,8 +95,6 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 		});
 		if (sharedBindings.size > 0) sharedBindingsMap.set(id, sharedBindings);
 		else sharedBindingsMap.delete(id);
-		const addHmr = (userConfig.codeSplittingOptions?.addHmr ?? true) && !isProduction;
-		const hmrStyle = userConfig.plugin?.hmr?.style ?? "vite";
 		const compiledReferenceRoute = require_compilers.compileCodeSplitReferenceRoute({
 			code,
 			codeSplitGroupings: splitGroupings,
@@ -97,11 +106,7 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 			hmrStyle,
 			hmrRouteId: generatorNodeInfo.routeId,
 			sharedBindings: sharedBindings.size > 0 ? sharedBindings : void 0,
-			compilerPlugins: [...require_framework_plugins.getReferenceRouteCompilerPlugins({
-				targetFramework: userConfig.target,
-				addHmr,
-				hmrStyle
-			}) ?? [], ...userConfig.codeSplittingOptions?.compilerPlugins ?? []]
+			compilerPlugins
 		});
 		if (compiledReferenceRoute === null) {
 			if (require_utils.debug) console.info(`No changes made to route "${id}", skipping code-splitting.`);
@@ -125,7 +130,8 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 			code,
 			filename: id,
 			splitTargets: grouping,
-			sharedBindings: sharedBindingsMap.get(baseId)
+			sharedBindings: sharedBindingsMap.get(baseId),
+			compilerPlugins: virtualRouteCompilerPlugins
 		});
 		if (require_utils.debug) {
 			(0, _tanstack_router_utils.logDiff)(code, result.code);
@@ -154,6 +160,7 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 			},
 			vite: {
 				configResolved(config) {
+					isProduction = config.command === "build";
 					ROOT = config.root;
 					initUserConfig();
 					const routerPluginIndex = config.plugins.findIndex((p) => p.name === CODE_SPLITTER_PLUGIN_NAME);
@@ -170,11 +177,13 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 					return true;
 				}
 			},
-			rspack() {
+			rspack(compiler) {
+				isProduction = compiler.options.mode === "production";
 				ROOT = process.cwd();
 				initUserConfig();
 			},
-			webpack() {
+			webpack(compiler) {
+				isProduction = compiler.options.mode === "production";
 				ROOT = process.cwd();
 				initUserConfig();
 			}

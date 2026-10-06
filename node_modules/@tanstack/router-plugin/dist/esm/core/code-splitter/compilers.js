@@ -453,38 +453,45 @@ function compileCodeSplitVirtualRoute(opts) {
 			let originalIdentName;
 			if (t.isIdentifier(splitNode)) originalIdentName = splitNode.name;
 			while (t.isIdentifier(splitNode)) splitNode = programPath.scope.getBinding(splitNode.name)?.path.node;
-			if (splitNode) if (t.isFunctionDeclaration(splitNode)) {
-				if (!splitNode.id) throw new Error(`Function declaration for "${SPLIT_TYPE}" must have an identifier.`);
-				splitMeta.shouldRemoveNode = false;
-				splitMeta.localExporterIdent = splitNode.id.name;
-			} else if (t.isFunctionExpression(splitNode) || t.isArrowFunctionExpression(splitNode)) programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode)]));
-			else if (t.isImportSpecifier(splitNode) || t.isImportDefaultSpecifier(splitNode)) programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode.local)]));
-			else if (t.isVariableDeclarator(splitNode)) if (t.isIdentifier(splitNode.id)) {
-				splitMeta.localExporterIdent = splitNode.id.name;
-				splitMeta.shouldRemoveNode = false;
-			} else if (t.isObjectPattern(splitNode.id)) {
-				if (originalIdentName) splitMeta.localExporterIdent = originalIdentName;
-				splitMeta.shouldRemoveNode = false;
-			} else throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
-			else if (t.isCallExpression(splitNode)) {
-				const outputSplitNodeCode = generateFromAst(splitNode).code;
-				const splitNodeAst = babel.parse(outputSplitNodeCode);
-				if (!splitNodeAst) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
-				const statement = splitNodeAst.program.body[0];
-				if (!statement) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}" as no statement was found in the program body`);
-				if (t.isExpressionStatement(statement)) {
-					const expression = statement.expression;
-					programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), expression)]));
-				} else throw new Error(`Unexpected expression type encounter for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
-			} else if (t.isConditionalExpression(splitNode)) programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode)]));
-			else if (t.isTSAsExpression(splitNode)) {
-				splitNode = splitNode.expression;
-				programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode)]));
-			} else if (t.isBooleanLiteral(splitNode)) return;
-			else if (t.isNullLiteral(splitNode)) return;
-			else {
-				console.info("Unexpected splitNode type:", splitNode);
-				throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
+			if (splitNode) {
+				for (const plugin of opts.compilerPlugins ?? []) plugin.onVirtualRouteSplitNode?.({
+					programPath,
+					splitNode,
+					splitNodeMeta: splitMeta
+				});
+				if (t.isFunctionDeclaration(splitNode)) {
+					if (!splitNode.id) throw new Error(`Function declaration for "${SPLIT_TYPE}" must have an identifier.`);
+					splitMeta.shouldRemoveNode = false;
+					splitMeta.localExporterIdent = splitNode.id.name;
+				} else if (t.isFunctionExpression(splitNode) || t.isArrowFunctionExpression(splitNode)) programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode)]));
+				else if (t.isImportSpecifier(splitNode) || t.isImportDefaultSpecifier(splitNode)) programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode.local)]));
+				else if (t.isVariableDeclarator(splitNode)) if (t.isIdentifier(splitNode.id)) {
+					splitMeta.localExporterIdent = splitNode.id.name;
+					splitMeta.shouldRemoveNode = false;
+				} else if (t.isObjectPattern(splitNode.id)) {
+					if (originalIdentName) splitMeta.localExporterIdent = originalIdentName;
+					splitMeta.shouldRemoveNode = false;
+				} else throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
+				else if (t.isCallExpression(splitNode)) {
+					const outputSplitNodeCode = generateFromAst(splitNode).code;
+					const splitNodeAst = babel.parse(outputSplitNodeCode);
+					if (!splitNodeAst) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
+					const statement = splitNodeAst.program.body[0];
+					if (!statement) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}" as no statement was found in the program body`);
+					if (t.isExpressionStatement(statement)) {
+						const expression = statement.expression;
+						programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), expression)]));
+					} else throw new Error(`Unexpected expression type encounter for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
+				} else if (t.isConditionalExpression(splitNode)) programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode)]));
+				else if (t.isTSAsExpression(splitNode)) {
+					splitNode = splitNode.expression;
+					programPath.pushContainer("body", t.variableDeclaration("const", [t.variableDeclarator(t.identifier(splitMeta.localExporterIdent), splitNode)]));
+				} else if (t.isBooleanLiteral(splitNode)) return;
+				else if (t.isNullLiteral(splitNode)) return;
+				else {
+					console.info("Unexpected splitNode type:", splitNode);
+					throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
+				}
 			}
 			if (splitMeta.shouldRemoveNode) programPath.node.body = programPath.node.body.filter((node) => {
 				return node !== splitNode;

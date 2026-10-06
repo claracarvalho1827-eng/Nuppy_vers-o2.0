@@ -2,7 +2,7 @@ import { getConfig, splitGroupingsSchema } from "./config.js";
 import { defaultCodeSplitGroupings, splitRouteIdentNodes, tsrShared, tsrSplit } from "./constants.js";
 import { debug, normalizePath, routeFactoryCallCodeFilter } from "./utils.js";
 import { compileCodeSplitReferenceRoute, compileCodeSplitSharedRoute, compileCodeSplitVirtualRoute, computeSharedBindings, detectCodeSplitGroupingsFromRoute } from "./code-splitter/compilers.js";
-import { getReferenceRouteCompilerPlugins } from "./code-splitter/plugins/framework-plugins.js";
+import { getFrameworkHmrCompilerPlugins } from "./code-splitter/plugins/framework-plugins.js";
 import { createRouterPluginContext } from "./router-plugin-context.js";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { decodeIdentifier, logDiff } from "@tanstack/router-utils";
@@ -43,11 +43,22 @@ var TRANSFORMATION_PLUGINS_BY_FRAMEWORK = {
 function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 	let ROOT = process.cwd();
 	let userConfig;
+	let addHmr;
+	let hmrStyle;
+	let compilerPlugins;
+	let virtualRouteCompilerPlugins;
+	let isProduction = process.env.NODE_ENV === "production";
 	function initUserConfig() {
 		if (typeof options === "function") userConfig = options();
 		else userConfig = getConfig(options, ROOT);
+		addHmr = (userConfig.codeSplittingOptions?.addHmr ?? true) && !isProduction;
+		hmrStyle = userConfig.plugin?.hmr?.style ?? "vite";
+		compilerPlugins = [...addHmr ? getFrameworkHmrCompilerPlugins({
+			targetFramework: userConfig.target,
+			hmrStyle
+		}) ?? [] : [], ...userConfig.codeSplittingOptions?.compilerPlugins ?? []];
+		virtualRouteCompilerPlugins = compilerPlugins.filter((plugin) => plugin.onVirtualRouteSplitNode);
 	}
-	const isProduction = process.env.NODE_ENV === "production";
 	const sharedBindingsMap = /* @__PURE__ */ new Map();
 	const getGlobalCodeSplitGroupings = () => {
 		return userConfig.codeSplittingOptions?.defaultBehavior || defaultCodeSplitGroupings;
@@ -84,8 +95,6 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 		});
 		if (sharedBindings.size > 0) sharedBindingsMap.set(id, sharedBindings);
 		else sharedBindingsMap.delete(id);
-		const addHmr = (userConfig.codeSplittingOptions?.addHmr ?? true) && !isProduction;
-		const hmrStyle = userConfig.plugin?.hmr?.style ?? "vite";
 		const compiledReferenceRoute = compileCodeSplitReferenceRoute({
 			code,
 			codeSplitGroupings: splitGroupings,
@@ -97,11 +106,7 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 			hmrStyle,
 			hmrRouteId: generatorNodeInfo.routeId,
 			sharedBindings: sharedBindings.size > 0 ? sharedBindings : void 0,
-			compilerPlugins: [...getReferenceRouteCompilerPlugins({
-				targetFramework: userConfig.target,
-				addHmr,
-				hmrStyle
-			}) ?? [], ...userConfig.codeSplittingOptions?.compilerPlugins ?? []]
+			compilerPlugins
 		});
 		if (compiledReferenceRoute === null) {
 			if (debug) console.info(`No changes made to route "${id}", skipping code-splitting.`);
@@ -125,7 +130,8 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 			code,
 			filename: id,
 			splitTargets: grouping,
-			sharedBindings: sharedBindingsMap.get(baseId)
+			sharedBindings: sharedBindingsMap.get(baseId),
+			compilerPlugins: virtualRouteCompilerPlugins
 		});
 		if (debug) {
 			logDiff(code, result.code);
@@ -154,6 +160,7 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 			},
 			vite: {
 				configResolved(config) {
+					isProduction = config.command === "build";
 					ROOT = config.root;
 					initUserConfig();
 					const routerPluginIndex = config.plugins.findIndex((p) => p.name === CODE_SPLITTER_PLUGIN_NAME);
@@ -170,11 +177,13 @@ function createRouterCodeSplitterPlugin(options = {}, routerPluginContext) {
 					return true;
 				}
 			},
-			rspack() {
+			rspack(compiler) {
+				isProduction = compiler.options.mode === "production";
 				ROOT = process.cwd();
 				initUserConfig();
 			},
-			webpack() {
+			webpack(compiler) {
+				isProduction = compiler.options.mode === "production";
 				ROOT = process.cwd();
 				initUserConfig();
 			}

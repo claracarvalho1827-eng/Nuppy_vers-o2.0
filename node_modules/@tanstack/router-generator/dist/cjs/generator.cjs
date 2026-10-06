@@ -291,16 +291,7 @@ var Generator = class Generator {
 		};
 		const { rootRouteNode, acc } = opts;
 		const indexTokenSegmentRegex = config.indexToken === this.config.indexToken ? this.indexTokenSegmentRegex : require_utils.createTokenRegex(config.indexToken, { type: "segment" });
-		const sortedRouteNodes = require_utils.multiSortBy(acc.routeNodes, [
-			(d) => d.routePath?.includes(`/__root`) ? -1 : 1,
-			(d) => d.routePath === void 0 ? void 0 : require_utils.countSlashSeparatedParts(d.routePath),
-			(d) => {
-				const segments = d.routePath?.split("/").filter(Boolean) ?? [];
-				const last = segments[segments.length - 1] ?? "";
-				return indexTokenSegmentRegex.test(last) ? -1 : 1;
-			},
-			(d) => d
-		]);
+		const sortedRouteNodes = require_utils.sortRouteNodes(acc.routeNodes, indexTokenSegmentRegex);
 		const routeImports = [];
 		const virtualRouteNodes = [];
 		for (const node of sortedRouteNodes) if (node.isVirtual) virtualRouteNodes.push(`const ${node.variableName}RouteImport = createFileRoute('${node.routePath}')()`);

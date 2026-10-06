@@ -457,38 +457,45 @@ function compileCodeSplitVirtualRoute(opts) {
 			let originalIdentName;
 			if (_babel_types.isIdentifier(splitNode)) originalIdentName = splitNode.name;
 			while (_babel_types.isIdentifier(splitNode)) splitNode = programPath.scope.getBinding(splitNode.name)?.path.node;
-			if (splitNode) if (_babel_types.isFunctionDeclaration(splitNode)) {
-				if (!splitNode.id) throw new Error(`Function declaration for "${SPLIT_TYPE}" must have an identifier.`);
-				splitMeta.shouldRemoveNode = false;
-				splitMeta.localExporterIdent = splitNode.id.name;
-			} else if (_babel_types.isFunctionExpression(splitNode) || _babel_types.isArrowFunctionExpression(splitNode)) programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode)]));
-			else if (_babel_types.isImportSpecifier(splitNode) || _babel_types.isImportDefaultSpecifier(splitNode)) programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode.local)]));
-			else if (_babel_types.isVariableDeclarator(splitNode)) if (_babel_types.isIdentifier(splitNode.id)) {
-				splitMeta.localExporterIdent = splitNode.id.name;
-				splitMeta.shouldRemoveNode = false;
-			} else if (_babel_types.isObjectPattern(splitNode.id)) {
-				if (originalIdentName) splitMeta.localExporterIdent = originalIdentName;
-				splitMeta.shouldRemoveNode = false;
-			} else throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
-			else if (_babel_types.isCallExpression(splitNode)) {
-				const outputSplitNodeCode = (0, _tanstack_router_utils.generateFromAst)(splitNode).code;
-				const splitNodeAst = _babel_core.parse(outputSplitNodeCode);
-				if (!splitNodeAst) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
-				const statement = splitNodeAst.program.body[0];
-				if (!statement) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}" as no statement was found in the program body`);
-				if (_babel_types.isExpressionStatement(statement)) {
-					const expression = statement.expression;
-					programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), expression)]));
-				} else throw new Error(`Unexpected expression type encounter for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
-			} else if (_babel_types.isConditionalExpression(splitNode)) programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode)]));
-			else if (_babel_types.isTSAsExpression(splitNode)) {
-				splitNode = splitNode.expression;
-				programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode)]));
-			} else if (_babel_types.isBooleanLiteral(splitNode)) return;
-			else if (_babel_types.isNullLiteral(splitNode)) return;
-			else {
-				console.info("Unexpected splitNode type:", splitNode);
-				throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
+			if (splitNode) {
+				for (const plugin of opts.compilerPlugins ?? []) plugin.onVirtualRouteSplitNode?.({
+					programPath,
+					splitNode,
+					splitNodeMeta: splitMeta
+				});
+				if (_babel_types.isFunctionDeclaration(splitNode)) {
+					if (!splitNode.id) throw new Error(`Function declaration for "${SPLIT_TYPE}" must have an identifier.`);
+					splitMeta.shouldRemoveNode = false;
+					splitMeta.localExporterIdent = splitNode.id.name;
+				} else if (_babel_types.isFunctionExpression(splitNode) || _babel_types.isArrowFunctionExpression(splitNode)) programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode)]));
+				else if (_babel_types.isImportSpecifier(splitNode) || _babel_types.isImportDefaultSpecifier(splitNode)) programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode.local)]));
+				else if (_babel_types.isVariableDeclarator(splitNode)) if (_babel_types.isIdentifier(splitNode.id)) {
+					splitMeta.localExporterIdent = splitNode.id.name;
+					splitMeta.shouldRemoveNode = false;
+				} else if (_babel_types.isObjectPattern(splitNode.id)) {
+					if (originalIdentName) splitMeta.localExporterIdent = originalIdentName;
+					splitMeta.shouldRemoveNode = false;
+				} else throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
+				else if (_babel_types.isCallExpression(splitNode)) {
+					const outputSplitNodeCode = (0, _tanstack_router_utils.generateFromAst)(splitNode).code;
+					const splitNodeAst = _babel_core.parse(outputSplitNodeCode);
+					if (!splitNodeAst) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
+					const statement = splitNodeAst.program.body[0];
+					if (!statement) throw new Error(`Failed to parse the generated code for "${SPLIT_TYPE}" in the node type "${splitNode.type}" as no statement was found in the program body`);
+					if (_babel_types.isExpressionStatement(statement)) {
+						const expression = statement.expression;
+						programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), expression)]));
+					} else throw new Error(`Unexpected expression type encounter for "${SPLIT_TYPE}" in the node type "${splitNode.type}"`);
+				} else if (_babel_types.isConditionalExpression(splitNode)) programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode)]));
+				else if (_babel_types.isTSAsExpression(splitNode)) {
+					splitNode = splitNode.expression;
+					programPath.pushContainer("body", _babel_types.variableDeclaration("const", [_babel_types.variableDeclarator(_babel_types.identifier(splitMeta.localExporterIdent), splitNode)]));
+				} else if (_babel_types.isBooleanLiteral(splitNode)) return;
+				else if (_babel_types.isNullLiteral(splitNode)) return;
+				else {
+					console.info("Unexpected splitNode type:", splitNode);
+					throw new Error(`Unexpected splitNode type ☝️: ${splitNode.type}`);
+				}
 			}
 			if (splitMeta.shouldRemoveNode) programPath.node.body = programPath.node.body.filter((node) => {
 				return node !== splitNode;

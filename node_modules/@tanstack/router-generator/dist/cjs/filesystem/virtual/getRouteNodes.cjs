@@ -68,7 +68,7 @@ async function getRouteNodesRecursive(tsrConfig, root, fullDir, nodes, tokenRege
 	return {
 		children: (await Promise.all(nodes.map(async (node) => {
 			if (node.type === "physical") {
-				const { routePath: routePathPrefix, originalRoutePath: originalRoutePathPrefix } = node.pathPrefix ? require_utils.determineInitialRoutePath(require_utils.removeLeadingSlash(node.pathPrefix)) : {
+				const { routePath: routePathPrefix, originalRoutePath: originalRoutePathPrefix } = node.pathPrefix ? require_utils.determineInitialRoutePathFromExplicitPath(require_utils.removeLeadingSlash(node.pathPrefix)) : {
 					routePath: "",
 					originalRoutePath: ""
 				};
@@ -118,7 +118,7 @@ async function getRouteNodesRecursive(tsrConfig, root, fullDir, nodes, tokenRege
 				case "route": {
 					const lastSegment = node.path;
 					let routeNode;
-					const { routePath: escapedSegment, originalRoutePath: originalSegment } = require_utils.determineInitialRoutePath(require_utils.removeLeadingSlash(lastSegment));
+					const { routePath: escapedSegment, originalRoutePath: originalSegment } = require_utils.determineInitialRoutePathFromExplicitPath(require_utils.removeLeadingSlash(lastSegment));
 					const routePath = `${parentRoutePath}${escapedSegment}`;
 					const originalRoutePath = `${parentOriginalRoutePath}${originalSegment}`;
 					const routePathSegmentMetadata = require_utils.createLiteralRoutePathSegmentMetadata(routePath, parent, true);
@@ -162,7 +162,7 @@ async function getRouteNodesRecursive(tsrConfig, root, fullDir, nodes, tokenRege
 						node.id = ensureLeadingUnderScore(fileNameWithoutExt);
 					}
 					const lastSegment = node.id;
-					const { routePath: escapedSegment, originalRoutePath: originalSegment } = require_utils.determineInitialRoutePath(require_utils.removeLeadingSlash(lastSegment));
+					const { routePath: escapedSegment, originalRoutePath: originalSegment } = require_utils.determineInitialRoutePathFromExplicitPath(require_utils.removeLeadingSlash(lastSegment));
 					const routePath = `${parentRoutePath}${escapedSegment}`;
 					const routeNode = {
 						fullPath,

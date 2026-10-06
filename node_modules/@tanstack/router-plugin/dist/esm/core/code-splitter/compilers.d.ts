@@ -1,4 +1,4 @@
-import { CompileCodeSplitReferenceRouteOptions, ReferenceRouteCompilerPlugin } from './plugins.js';
+import { CodeSplitCompilerPlugin, CompileCodeSplitReferenceRouteOptions } from './plugins.js';
 import { GeneratorResult, ParseAstOptions } from '@tanstack/router-utils';
 import { CodeSplitGroupings, SplitRouteIdentNodes } from '../constants.js';
 export { buildDeclarationMap, buildDependencyGraph, collectIdentifiersFromNode, collectLocalBindingsFromStatement, collectModuleLevelRefsFromNode, expandDestructuredDeclarations, expandSharedDestructuredDeclarators, expandTransitively, removeBindingsTransitivelyDependingOn, } from '@tanstack/router-utils';
@@ -19,12 +19,13 @@ export declare function computeSharedBindings(opts: {
     codeSplitGroupings: CodeSplitGroupings;
 }): Set<string>;
 export declare function compileCodeSplitReferenceRoute(opts: ParseAstOptions & CompileCodeSplitReferenceRouteOptions & {
-    compilerPlugins?: Array<ReferenceRouteCompilerPlugin>;
+    compilerPlugins?: Array<CodeSplitCompilerPlugin>;
 }): GeneratorResult | null;
 export declare function compileCodeSplitVirtualRoute(opts: ParseAstOptions & {
     splitTargets: Array<SplitRouteIdentNodes>;
     filename: string;
     sharedBindings?: Set<string>;
+    compilerPlugins?: Array<CodeSplitCompilerPlugin>;
 }): GeneratorResult;
 /**
  * Compile the shared virtual module (`?tsr-shared=1`).

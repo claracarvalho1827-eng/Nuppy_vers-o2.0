@@ -2,7 +2,7 @@ import { getConfig } from "./config.js";
 import { createRouteHmrStatement } from "./hmr/select-adapter.js";
 import { debug, normalizePath, routeFactoryCallCodeFilter } from "./utils.js";
 import { compileCodeSplitReferenceRoute } from "./code-splitter/compilers.js";
-import { getReferenceRouteCompilerPlugins } from "./code-splitter/plugins/framework-plugins.js";
+import { getFrameworkHmrCompilerPlugins } from "./code-splitter/plugins/framework-plugins.js";
 import { generateFromAst, logDiff, parseAst } from "@tanstack/router-utils";
 //#region src/core/router-hmr-plugin.ts
 /**
@@ -31,9 +31,8 @@ function createRouterHmrPlugin(options = {}, routerPluginContext) {
 				if (debug) console.info("Adding HMR handling to route ", normalizedId);
 				const hmrStyle = userConfig.plugin?.hmr?.style ?? "vite";
 				if (userConfig.target === "react") {
-					const compilerPlugins = getReferenceRouteCompilerPlugins({
+					const compilerPlugins = getFrameworkHmrCompilerPlugins({
 						targetFramework: "react",
-						addHmr: true,
 						hmrStyle
 					});
 					const compiled = compileCodeSplitReferenceRoute({

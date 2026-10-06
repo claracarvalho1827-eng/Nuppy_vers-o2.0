@@ -31,9 +31,8 @@ function createRouterHmrPlugin(options = {}, routerPluginContext) {
 				if (require_utils.debug) console.info("Adding HMR handling to route ", normalizedId);
 				const hmrStyle = userConfig.plugin?.hmr?.style ?? "vite";
 				if (userConfig.target === "react") {
-					const compilerPlugins = require_framework_plugins.getReferenceRouteCompilerPlugins({
+					const compilerPlugins = require_framework_plugins.getFrameworkHmrCompilerPlugins({
 						targetFramework: "react",
-						addHmr: true,
 						hmrStyle
 					});
 					const compiled = require_compilers.compileCodeSplitReferenceRoute({

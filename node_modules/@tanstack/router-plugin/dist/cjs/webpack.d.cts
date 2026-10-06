@@ -9,7 +9,7 @@ import { RouterPluginContext } from './core/router-plugin-context.cjs';
  * }
  * ```
  */
-declare const TanStackRouterGeneratorWebpack: (options?: Partial<Config>, routerPluginContext?: RouterPluginContext) => import('unplugin').WebpackPluginInstance;
+declare const TanStackRouterGeneratorWebpack: (options?: Partial<Config>, routerPluginContext?: RouterPluginContext) => import('webpack').WebpackPluginInstance;
 /**
  * @example
  * ```ts
@@ -19,7 +19,7 @@ declare const TanStackRouterGeneratorWebpack: (options?: Partial<Config>, router
  * }
  * ```
  */
-declare const TanStackRouterCodeSplitterWebpack: (options?: Partial<Config>, routerPluginContext?: RouterPluginContext) => import('unplugin').WebpackPluginInstance;
+declare const TanStackRouterCodeSplitterWebpack: (options?: Partial<Config>, routerPluginContext?: RouterPluginContext) => import('webpack').WebpackPluginInstance;
 /**
  * @example
  * ```ts
@@ -29,8 +29,8 @@ declare const TanStackRouterCodeSplitterWebpack: (options?: Partial<Config>, rou
  * }
  * ```
  */
-declare const TanStackRouterWebpack: (options?: unknown) => import('unplugin').WebpackPluginInstance;
-declare const tanstackRouter: (options?: unknown) => import('unplugin').WebpackPluginInstance;
+declare const TanStackRouterWebpack: (options?: unknown) => import('webpack').WebpackPluginInstance;
+declare const tanstackRouter: (options?: unknown) => import('webpack').WebpackPluginInstance;
 export default TanStackRouterWebpack;
 export { configSchema, TanStackRouterWebpack, TanStackRouterGeneratorWebpack, TanStackRouterCodeSplitterWebpack, tanstackRouter, };
 export type { Config, CodeSplittingOptions, RouterPluginContext };
