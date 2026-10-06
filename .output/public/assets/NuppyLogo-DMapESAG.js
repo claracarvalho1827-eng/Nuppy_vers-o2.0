@@ -1,0 +1,1 @@
+import{r as e}from"./useRouter-DeDOna9C.js";var t=`/assets/nuppy-logo-HPQ2dgMx.png`,n=e();function r({className:e=``}){return(0,n.jsx)(`img`,{src:t,alt:`Nuppy`,className:`select-none pointer-events-none `+e,draggable:!1})}export{r as t};
