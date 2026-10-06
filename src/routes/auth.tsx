@@ -179,7 +179,6 @@ function AuthPage() {
       setLoading(false);
     }
   }
-
   // ------------------------------------------------------------------
   // LOGIN COM GOOGLE — Supabase Auth nativo (Google OAuth).
   // O Supabase redireciona para o Google e, ao voltar, o próprio
