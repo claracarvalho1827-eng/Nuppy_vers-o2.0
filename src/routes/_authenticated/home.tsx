@@ -54,11 +54,11 @@ function HomePage() {
       {/* ============== CABEÇALHO COM LOGO ============== */}
       <header className="relative pt-4 pb-2 px-4">
         <div className="flex justify-center">
-          {/* 🐾 LOGO Nuppy. Pra trocar a imagem: edite src/components/NuppyLogo.tsx */}
+          {/*  LOGO Nuppy. Pra trocar a imagem: edite src/components/NuppyLogo.tsx */}
           <NuppyLogo className="h-32 drop-shadow-sm" />
         </div>
 
-        {/* 🏷️ "Etiquetinha" laranja com o slogan, ligeiramente sobreposta ao logo */}
+        {/*  "Etiquetinha" laranja com o slogan, ligeiramente sobreposta ao logo */}
         <div className="-mt-6 flex justify-center">
           <span className="rounded-full bg-primary text-primary-foreground text-xs font-display px-4 py-1.5 shadow-soft">
             {/* 👇 TEXTO DO SLOGAN — troque aqui pra mudar a frase */}
