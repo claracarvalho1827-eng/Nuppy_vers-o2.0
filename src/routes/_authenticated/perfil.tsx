@@ -13,7 +13,7 @@
  * ========================================================================== */
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, Suspense } from "react";
+import { useState, useRef, Suspense } from "react";
 import {
   ChevronLeft,
   Settings,
@@ -23,8 +23,10 @@ import {
   Heart,
   Camera,
   Sparkles,
+  Upload,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadImage } from "@/lib/upload";
 import { MobileShell } from "@/components/MobileShell";
 import { toast } from "sonner";
 import peludinho from "@/assets/peludinho.png";
@@ -374,6 +376,19 @@ function EmptyState({
 
 /* ------------ modal editar ------------ */
 
+/* Mascotes do app que o usuário pode escolher como foto de perfil. */
+const MASCOTS = [
+  { id: "peludinho", label: "Peludinho", src: peludinho },
+  { id: "passaro", label: "Pássaro", src: passaro },
+  { id: "cachorro", label: "Cachorro", src: cachorro },
+  { id: "gato", label: "Gato", src: gato },
+  { id: "peixe", label: "Peixe", src: peixe },
+];
+type Mascot = (typeof MASCOTS)[number];
+
+/* Tamanho máximo da foto enviada do dispositivo. */
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
+
 function EditModal({
   profile,
   onClose,
@@ -392,6 +407,37 @@ function EditModal({
   const [city, setCity] = useState(profile?.city ?? "");
   const [avatar, setAvatar] = useState(profile?.avatar_url ?? "");
   const [busy, setBusy] = useState(false);
+  // Foto escolhida: arquivo do dispositivo OU mascote (um anula o outro)
+  const [file, setFile] = useState<File | null>(null);
+  const [mascot, setMascot] = useState<Mascot | null>(null);
+  // Imagem mostrada na prévia do modal
+  const [preview, setPreview] = useState(profile?.avatar_url ?? "");
+  const fileInput = useRef<HTMLInputElement>(null);
+
+  function pickFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    e.target.value = ""; // permite escolher o mesmo arquivo de novo
+    if (!f) return;
+    if (!f.type.startsWith("image/")) {
+      toast.error("Escolha um arquivo de imagem");
+      return;
+    }
+    if (f.size > MAX_AVATAR_BYTES) {
+      toast.error("A imagem deve ter no máximo 5 MB");
+      return;
+    }
+    setFile(f);
+    setMascot(null);
+    setAvatar("");
+    setPreview(URL.createObjectURL(f));
+  }
+
+  function pickMascot(m: Mascot) {
+    setMascot(m);
+    setFile(null);
+    setAvatar("");
+    setPreview(m.src);
+  }
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -400,13 +446,36 @@ function EditModal({
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) return;
+
+    // Se escolheu arquivo ou mascote, sobe para o storage e guarda a URL.
+    // (A URL do mascote importado muda a cada build, por isso ele também é
+    // enviado ao storage — assim a URL salva no banco nunca quebra.)
+    let avatarUrl: string | null = avatar || null;
+    try {
+      if (file) {
+        avatarUrl = await uploadImage("pet-photos", file);
+      } else if (mascot) {
+        const blob = await (await fetch(mascot.src)).blob();
+        avatarUrl = await uploadImage(
+          "pet-photos",
+          new File([blob], `${mascot.id}.png`, { type: blob.type || "image/png" }),
+        );
+      }
+    } catch (err) {
+      setBusy(false);
+      toast.error(
+        err instanceof Error ? err.message : "Não foi possível enviar a imagem",
+      );
+      return;
+    }
+
     const { error } = await supabase
       .from("profiles")
       .update({
         display_name: name,
         bio,
         city,
-        avatar_url: avatar || null,
+        avatar_url: avatarUrl,
       })
       .eq("id", user.id);
     setBusy(false);
@@ -427,12 +496,73 @@ function EditModal({
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={save}
-        className="w-full max-w-[480px] bg-card rounded-t-3xl sm:rounded-3xl p-6 space-y-3"
+        className="w-full max-w-[480px] max-h-[90vh] overflow-y-auto bg-card rounded-t-3xl sm:rounded-3xl p-6 space-y-3"
       >
         <div className="flex items-center gap-2">
           <Camera className="size-5 text-primary" />
           <h3 className="font-display text-xl text-brand">Editar perfil</h3>
         </div>
+
+        {/* FOTO DE PERFIL — prévia + enviar do dispositivo */}
+        <div className="flex items-center gap-3">
+          <div className="size-16 shrink-0 rounded-full bg-muted border-2 border-card shadow-soft overflow-hidden">
+            <img
+              src={preview || peludinho}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="min-w-0">
+            <button
+              type="button"
+              onClick={() => fileInput.current?.click()}
+              className="px-4 py-2 rounded-full border border-border text-sm font-display text-brand inline-flex items-center gap-2 hover:bg-accent transition"
+            >
+              <Upload className="size-4" /> Escolher do dispositivo
+            </button>
+            <p className="text-[11px] text-muted-foreground mt-1">
+              JPG, PNG ou WebP · até 5 MB
+            </p>
+          </div>
+          <input
+            ref={fileInput}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={pickFile}
+          />
+        </div>
+
+        {/* FOTO DE PERFIL — escolher um mascote do Nuppy */}
+        <div>
+          <p className="text-xs text-muted-foreground mb-1.5">
+            Ou escolha um mascote
+          </p>
+          <div className="flex items-center justify-between gap-2">
+            {MASCOTS.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                title={m.label}
+                aria-label={m.label}
+                aria-pressed={mascot?.id === m.id}
+                onClick={() => pickMascot(m)}
+                className={`size-12 shrink-0 rounded-full overflow-hidden bg-muted border-2 transition ${
+                  mascot?.id === m.id
+                    ? "border-primary ring-2 ring-primary/40"
+                    : "border-transparent hover:border-border"
+                }`}
+              >
+                <img
+                  src={m.src}
+                  alt={m.label}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
         <input
           className="nuppy-input pl-4"
           placeholder="Nome"
@@ -456,7 +586,12 @@ function EditModal({
           className="nuppy-input pl-4"
           placeholder="URL da foto de perfil"
           value={avatar}
-          onChange={(e) => setAvatar(e.target.value)}
+          onChange={(e) => {
+            setAvatar(e.target.value);
+            setFile(null);
+            setMascot(null);
+            setPreview(e.target.value);
+          }}
         />
         <button disabled={busy} className="nuppy-btn-primary">
           {busy ? "Salvando..." : "Salvar alterações"}
