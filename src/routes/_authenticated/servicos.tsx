@@ -12,6 +12,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/MobileShell";
 import { ImageUpload } from "@/components/ImageUpload";
 import { toast } from "sonner";
+import gato from "@/assets/gato.png";
+import peixe from "@/assets/peixe.png";
 
 export const Route = createFileRoute("/_authenticated/servicos")({
   head: () => ({ meta: [{ title: "Serviços Pet — Nuppy" }] }),
@@ -79,7 +81,7 @@ function List({ filter }: { filter: string | null }) {
   if (list.length === 0) {
     return (
       <div className="p-8 text-center">
-        <div className="text-6xl mb-2">🛎️</div>
+        <img src={gato} alt="Gato" className="w-20 h-20 mx-auto mb-2 object-contain" />
         <p className="font-display text-brand">Nenhum serviço por aqui</p>
         <p className="text-sm text-muted-foreground mt-1">Divulgue seu serviço pet e ajude tutores!</p>
       </div>

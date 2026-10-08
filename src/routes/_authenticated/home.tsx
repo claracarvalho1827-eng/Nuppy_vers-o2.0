@@ -128,6 +128,18 @@ function HomePage() {
           </div>
           <span className="text-2xl"></span>
         </Link>
+        <Link
+          to="/servicos"
+          className="mt-3 nuppy-card p-4 flex items-center justify-between hover:shadow-soft transition"
+        >
+          <div>
+            <p className="font-display text-brand">Serviços pet</p>
+            <p className="text-xs text-muted-foreground">
+              Consultas, adestramento, veterinária e mais
+            </p>
+          </div>
+          <span className="text-2xl"></span>
+        </Link>
       </section>
     </MobileShell>
   );
