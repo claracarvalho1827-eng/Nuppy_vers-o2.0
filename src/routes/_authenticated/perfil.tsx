@@ -30,7 +30,8 @@ import { toast } from "sonner";
 import peludinho from "@/assets/peludinho.png";
 import passaro from "@/assets/passaro.png";
 import cachorro from "@/assets/cachorro.png";
-
+import gato from "@/assets/gato.png";
+import peixe from "@/assets/peixe.png";
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({ meta: [{ title: "Perfil — Nuppy" }] }),
   component: PerfilPage,
@@ -324,7 +325,7 @@ function LikedGrid({
     return (
       <EmptyState
         icon={
-          <img src={passaro} alt="cachorro" className="size-16 object-contain" />
+          <img src={cachorro} alt="cachorro" className="size-16 object-contain" />
         }
         text="Você ainda não curtiu nenhum vídeo"
       />
