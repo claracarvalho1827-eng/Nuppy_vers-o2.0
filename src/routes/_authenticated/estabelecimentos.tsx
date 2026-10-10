@@ -76,17 +76,17 @@ const query = {
   },
 };
 
-// Emojis por categoria (aparece nos chips e no fallback do card).
+// Ícones por categoria (mantém apenas o nome da categoria).
 const CAT_EMOJI: Record<string, string> = {
-  ONG: "🐾",
-  Banho: "🛁",
-  Hotel: "🏨",
-  Alimentação: "🍖",
-  Veterinário: "🩺",
-  "Pet Shop": "🛍️",
-  Parque: "🌳",
-  "Café Pet": "☕",
-  Adestrador: "🦮",
+  ONG: "",
+  Banho: "",
+  Hotel: "",
+  Alimentação: "",
+  Veterinário: "",
+  "Pet Shop": "",
+  Parque: "",
+  "Café Pet": "",
+  Adestrador: "",
 };
 
 // ============================================================================
@@ -173,7 +173,7 @@ function Body() {
                   : "bg-transparent text-brand border-transparent hover:bg-accent"
               }`}
             >
-              {c === "Todos" ? "Todos" : `${CAT_EMOJI[c] ?? "📍"} ${c}`}
+              {c === "Todos" ? "Todos" : c}
             </button>
           );
         })}
@@ -201,12 +201,12 @@ function Body() {
                 <img src={p.photo_url} alt={p.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full grid place-items-center text-6xl">
-                  {CAT_EMOJI[p.category] ?? "🐾"}
+                  {CAT_EMOJI[p.category] ?? ""}
                 </div>
               )}
               {/* Selo da categoria — canto superior esquerdo */}
               <span className="absolute top-3 left-3 rounded-full bg-card/90 backdrop-blur px-3 py-1 text-[11px] font-display text-brand uppercase tracking-wide shadow-soft">
-                {CAT_EMOJI[p.category] ?? "📍"} {p.category}
+                {p.category}
               </span>
               {/* Média de estrelas — canto superior direito (só se tiver avaliações) */}
               {p.review_count > 0 && (

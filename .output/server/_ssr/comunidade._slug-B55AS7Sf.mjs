@@ -2,7 +2,7 @@ import { n as __toESM } from "../_runtime.mjs";
 import { t as supabase } from "./client-CrwDbVDs.mjs";
 import { c as require_react, o as useQueryClient, r as useSuspenseQuery, s as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { C as useNavigate, x as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-import { E as Paperclip, R as LoaderCircle, V as Image, _ as Send, a as Users, et as ChevronLeft, i as Video, t as X } from "../_libs/lucide-react.mjs";
+import { D as Paperclip, H as Image, a as Users, i as Video, t as X, tt as ChevronLeft, v as Send, z as LoaderCircle } from "../_libs/lucide-react.mjs";
 import { t as toast } from "../_libs/sonner.mjs";
 import { t as Route } from "./comunidade._slug-DgMLG7-D.mjs";
 import { t as MobileShell } from "./MobileShell-Bd3RfVpU.mjs";

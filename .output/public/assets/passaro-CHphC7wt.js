@@ -1,1 +1,0 @@
-var e=`/assets/passaro-Cw80xXel.png`;export{e as t};

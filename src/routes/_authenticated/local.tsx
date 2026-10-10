@@ -48,10 +48,16 @@ const placesQuery = {
     return data ?? [];
   },
 };
-
 const CAT_EMOJI: Record<string, string> = {
-  "ONG": "🐾", "Banho": "🛁", "Hotel": "🏨", "Alimentação": "🍖",
-  "Veterinário": "🩺", "Pet Shop": "🛍️", "Parque": "🌳", "Café Pet": "☕", "Adestrador": "🦮",
+  ONG: "",
+  Banho: "",
+  Hotel: "",
+  Alimentação: "",
+  Veterinário: "",
+  "Pet Shop": "",
+  Parque: "",
+  "Café Pet": "",
+  Adestrador: "",
 };
 
 declare global {
@@ -191,7 +197,7 @@ function MapBody() {
         position: { lat: p.lat, lng: p.lng },
         map: mapInstance.current!,
         title: p.name,
-        label: { text: CAT_EMOJI[p.category] ?? "🐾", fontSize: "22px" },
+        label: { text: CAT_EMOJI[p.category] ?? "", fontSize: "22px" },
         animation: window.google.maps.Animation.DROP,
       });
       marker.addListener("click", () => {
@@ -260,7 +266,7 @@ function MapBody() {
                     : "bg-background text-brand border-border hover:bg-accent"
                 }`}
               >
-                {c === "Todos" ? `🐾 Todos (${places.length})` : `${CAT_EMOJI[c] ?? "📍"} ${c}`}
+                {c === "Todos" ? `Todos (${places.length})` : c}
               </button>
             );
           })}
@@ -298,7 +304,7 @@ function MapBody() {
                           <img src={p.photo_url} alt={p.name} className="size-16 rounded-xl object-cover shrink-0" />
                         ) : (
                           <div className="size-16 rounded-xl bg-accent grid place-items-center text-3xl shrink-0">
-                            {CAT_EMOJI[p.category] ?? "🐾"}
+                            {CAT_EMOJI[p.category] ?? ""}
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
@@ -361,7 +367,7 @@ function PlaceDetail({ place, userPos, onClose }: { place: Place; userPos: { lat
         {place.photo_url ? (
           <img src={place.photo_url} alt={place.name} className="size-20 rounded-xl object-cover" />
         ) : (
-          <div className="size-20 rounded-xl bg-accent grid place-items-center text-3xl">{CAT_EMOJI[place.category] ?? "🐾"}</div>
+          <div className="size-20 rounded-xl bg-accent grid place-items-center text-3xl">{CAT_EMOJI[place.category] ?? ""}</div>
         )}
         <div className="flex-1 min-w-0 pr-6">
           <p className="text-[11px] text-primary font-display uppercase tracking-wide">{place.category}</p>

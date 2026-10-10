@@ -1235,6 +1235,26 @@ var TriangleAlert = createLucideIcon("triangle-alert", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Upload = createLucideIcon("upload", [
+	["path", {
+		d: "M12 3v12",
+		key: "1x0j5s"
+	}],
+	["path", {
+		d: "m17 8-5-5-5 5",
+		key: "7q97r8"
+	}],
+	["path", {
+		d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",
+		key: "ih7n3h"
+	}]
+]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var User = createLucideIcon("user", [["path", {
 	d: "M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2",
 	key: "975kel"
@@ -1347,4 +1367,4 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 //#endregion
-export { ChevronRight as $, Mic as A, Instagram as B, Phone as C, Palette as D, Paperclip as E, LogOut as F, Grid3x3 as G, House as H, Lock as I, EyeOff as J, FingerprintPattern as K, Locate as L, Map as M, MapPin as N, Navigation as O, Mail as P, CircleAlert as Q, LoaderCircle as R, Plus as S, PawPrint as T, Heart as U, Image as V, Headphones as W, CircleX as X, Ellipsis as Y, CircleCheck as Z, Send as _, Users as a, Bookmark as at, Scale as b, Trash2 as c, Star as d, ChevronLeft as et, Sparkles as f, Settings as g, Share2 as h, Video as i, Cake as it, MessageCircle as j, Moon as k, Syringe as l, ShieldCheck as m, VolumeX as n, Camera as nt, User as o, AtSign as ot, Shield as p, Eye as q, Volume2 as r, Calendar as rt, TriangleAlert as s, X as t, Check as tt, Stethoscope as u, Search as v, Pencil as w, Ruler as x, Scissors as y, List as z };
+export { CircleAlert as $, Moon as A, List as B, Plus as C, Paperclip as D, PawPrint as E, Mail as F, Headphones as G, Image as H, LogOut as I, Eye as J, Grid3x3 as K, Lock as L, MessageCircle as M, Map as N, Palette as O, MapPin as P, CircleCheck as Q, Locate as R, Ruler as S, Pencil as T, House as U, Instagram as V, Heart as W, Ellipsis as X, EyeOff as Y, CircleX as Z, Settings as _, Users as a, Cake as at, Scissors as b, TriangleAlert as c, Stethoscope as d, ChevronRight as et, Star as f, Share2 as g, ShieldCheck as h, Video as i, Calendar as it, Mic as j, Navigation as k, Trash2 as l, Shield as m, VolumeX as n, Check as nt, User as o, Bookmark as ot, Sparkles as p, FingerprintPattern as q, Volume2 as r, Camera as rt, Upload as s, AtSign as st, X as t, ChevronLeft as tt, Syringe as u, Send as v, Phone as w, Scale as x, Search as y, LoaderCircle as z };

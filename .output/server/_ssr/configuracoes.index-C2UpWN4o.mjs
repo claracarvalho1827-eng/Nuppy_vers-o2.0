@@ -2,7 +2,7 @@ import { n as __toESM } from "../_runtime.mjs";
 import { t as supabase } from "./client-CrwDbVDs.mjs";
 import { c as require_react, o as useQueryClient, s as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { C as useNavigate, x as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-import { $ as ChevronRight, F as LogOut, I as Lock, Q as CircleAlert, W as Headphones, et as ChevronLeft, k as Moon, p as Shield } from "../_libs/lucide-react.mjs";
+import { $ as CircleAlert, A as Moon, G as Headphones, I as LogOut, L as Lock, et as ChevronRight, m as Shield, tt as ChevronLeft } from "../_libs/lucide-react.mjs";
 import { t as MobileShell } from "./MobileShell-Bd3RfVpU.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/configuracoes.index-C2UpWN4o.js
 var import_react = /* @__PURE__ */ __toESM(require_react());

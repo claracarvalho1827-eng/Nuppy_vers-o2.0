@@ -70,17 +70,17 @@ export const Route = createFileRoute("/_authenticated/estabelecimento/$id")({
   ),
 });
 
-// Emojis por categoria (mostrado no selo da categoria).
+// Ícones por categoria (mantém apenas o nome da categoria).
 const CAT_EMOJI: Record<string, string> = {
-  ONG: "🐾",
-  Banho: "🛁",
-  Hotel: "🏨",
-  Alimentação: "🍖",
-  Veterinário: "🩺",
-  "Pet Shop": "🛍️",
-  Parque: "🌳",
-  "Café Pet": "☕",
-  Adestrador: "🦮",
+  ONG: "",
+  Banho: "",
+  Hotel: "",
+  Alimentação: "",
+  Veterinário: "",
+  "Pet Shop": "",
+  Parque: "",
+  "Café Pet": "",
+  Adestrador: "",
 };
 
 // ----------------------------------------------------------------------------
@@ -188,7 +188,7 @@ function Body({ id }: { id: string }) {
   return (
     <div className="pb-28">
       {/* 1) CARROSSEL DE FOTOS */}
-      <PhotoCarousel photos={photos} fallbackEmoji={CAT_EMOJI[p.category] ?? "🐾"} />
+      <PhotoCarousel photos={photos} fallbackEmoji={CAT_EMOJI[p.category] ?? ""} />
 
       {/* Botões flutuantes por cima do carrossel */}
       <Link
@@ -210,7 +210,7 @@ function Body({ id }: { id: string }) {
         <div className="nuppy-card p-5">
           <div className="flex items-start justify-between gap-3">
             <span className="inline-block rounded-full bg-accent text-brand text-[11px] font-display px-3 py-1 uppercase tracking-wide">
-              {CAT_EMOJI[p.category] ?? "📍"} {p.category}
+              {p.category}
             </span>
             <RatingBadge placeId={id} />
           </div>
