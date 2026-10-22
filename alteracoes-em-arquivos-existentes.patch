@@ -1,0 +1,85 @@
+diff -ru a/src/components/MobileShell.tsx b/src/components/MobileShell.tsx
+--- a/src/components/MobileShell.tsx	2026-10-22 20:27:22.763891350 +0000
++++ b/src/components/MobileShell.tsx	2026-10-22 20:27:22.765658084 +0000
+@@ -12,7 +12,9 @@
+   return (
+     <div className="min-h-screen w-full flex justify-center nuppy-bg">
+       <div className="relative w-full max-w-[480px] min-h-screen bg-background/60 backdrop-blur-[1px] pb-28">
+-        {children}
++        <main id="conteudo" tabIndex={-1} className="outline-none">
++          {children}
++        </main>
+         {!hideNav && <BottomNav />}
+       </div>
+     </div>
+diff -ru a/src/routes/__root.tsx b/src/routes/__root.tsx
+--- a/src/routes/__root.tsx	2026-10-22 20:27:22.762988371 +0000
++++ b/src/routes/__root.tsx	2026-10-22 20:27:22.764713422 +0000
+@@ -10,6 +10,9 @@
+ import { useEffect, type ReactNode } from "react";
+ 
+ import appCss from "../styles.css?url";
++import a11yCss from "../a11y/a11y.css?url";
++import { EARLY_A11Y_SCRIPT } from "../a11y/early";
++import { AccessibilityKit } from "../components/AccessibilityKit";
+ import { reportLovableError } from "../lib/lovable-error-reporting";
+ import { supabase } from "../integrations/supabase/client";
+ 
+@@ -58,7 +61,7 @@
+   head: () => ({
+     meta: [
+       { charSet: "utf-8" },
+-      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
++      { name: "viewport", content: "width=device-width, initial-scale=1" },
+       { title: "Nuppy — Onde todo animal encontra cuidado" },
+       { name: "description", content: "Nuppy: rede social pet com feed, perfis de pets, comunidades e mapa de lugares pet friendly." },
+       { name: "theme-color", content: "#F2A847" },
+@@ -71,8 +74,10 @@
+       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/de2003fd-e73b-409f-86da-c44fe06f88fb/id-preview-ef512e49--d7b031d2-513b-4aca-9f5e-615c8082f651.lovable.app-1783855792198.png" },
+       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/de2003fd-e73b-409f-86da-c44fe06f88fb/id-preview-ef512e49--d7b031d2-513b-4aca-9f5e-615c8082f651.lovable.app-1783855792198.png" },
+     ],
++    scripts: [{ children: EARLY_A11Y_SCRIPT }],
+     links: [
+       { rel: "stylesheet", href: appCss },
++      { rel: "stylesheet", href: a11yCss },
+       { rel: "preconnect", href: "https://fonts.googleapis.com" },
+       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" },
+@@ -86,7 +91,7 @@
+ 
+ function RootShell({ children }: { children: ReactNode }) {
+   return (
+-    <html lang="pt-BR">
++    <html lang="pt-BR" suppressHydrationWarning>
+       <head><HeadContent /></head>
+       <body>
+         {children}
+@@ -112,6 +117,7 @@
+   return (
+     <QueryClientProvider client={queryClient}>
+       <Outlet />
++      <AccessibilityKit />
+     </QueryClientProvider>
+   );
+ }
+diff -ru a/src/routes/auth.tsx b/src/routes/auth.tsx
+--- a/src/routes/auth.tsx	2026-10-22 20:27:22.763029046 +0000
++++ b/src/routes/auth.tsx	2026-10-22 20:27:22.764751039 +0000
+@@ -209,7 +209,7 @@
+   return (
+     <div className="min-h-screen w-full flex justify-center nuppy-bg">
+       {/* Container central com largura máxima estilo mobile */}
+-      <div className="relative w-full max-w-[480px] min-h-screen px-6 pt-6 pb-10 flex flex-col">
++      <main id="conteudo" tabIndex={-1} className="relative w-full max-w-[480px] min-h-screen px-6 pt-6 pb-10 flex flex-col outline-none">
+         {/* HERO — só no login (visual mais convidativo) */}
+        
+ 
+@@ -410,7 +410,7 @@
+             )}
+           </p>
+         </div>
+-      </div>
++      </main>
+     </div>
+   );
+ }
