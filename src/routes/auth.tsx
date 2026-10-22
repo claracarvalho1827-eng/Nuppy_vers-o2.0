@@ -209,7 +209,7 @@ function AuthPage() {
   return (
     <div className="min-h-screen w-full flex justify-center nuppy-bg">
       {/* Container central com largura máxima estilo mobile */}
-      <div className="relative w-full max-w-[480px] min-h-screen px-6 pt-6 pb-10 flex flex-col">
+      <main id="conteudo" tabIndex={-1} className="relative w-full max-w-[480px] min-h-screen px-6 pt-6 pb-10 flex flex-col outline-none">
         {/* HERO — só no login (visual mais convidativo) */}
        
 
@@ -410,7 +410,7 @@ function AuthPage() {
             )}
           </p>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
