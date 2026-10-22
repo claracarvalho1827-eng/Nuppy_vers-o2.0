@@ -36,7 +36,7 @@ export function AccessibilityKit() {
     };
 
     // import dinâmico: o motor só é baixado no navegador, nunca no servidor.
-    void import("../../../a11y/nuppy-a11y.js").then(({ initA11y }) => {
+    void import("../../a11y/nuppy-a11y.js").then(({ initA11y }) => {
       if (dead) return;
       destroy = initA11y({
         reader: "auto",

@@ -1,0 +1,9 @@
+import { v as lazyRouteComponent, y as createFileRoute } from "../_libs/@tanstack/react-router+[...].mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/pet._petId-rnvEnLkV.js
+var $$splitComponentImporter = () => import("./pet._petId-Ca_j4FPD.mjs");
+var Route = createFileRoute("/_authenticated/pet/$petId")({
+	head: () => ({ meta: [{ title: "Pet — Nuppy" }] }),
+	component: lazyRouteComponent($$splitComponentImporter, "component")
+});
+//#endregion
+export { Route as t };
