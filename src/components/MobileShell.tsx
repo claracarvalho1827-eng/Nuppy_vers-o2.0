@@ -12,7 +12,9 @@ export function MobileShell({ children, hideNav = false }: { children: ReactNode
   return (
     <div className="min-h-screen w-full flex justify-center nuppy-bg">
       <div className="relative w-full max-w-[480px] min-h-screen bg-background/60 backdrop-blur-[1px] pb-28">
-        {children}
+        <main id="conteudo" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
         {!hideNav && <BottomNav />}
       </div>
     </div>
