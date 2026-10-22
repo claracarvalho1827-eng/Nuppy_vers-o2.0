@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import a11yCss from "../a11y/a11y.css?url";
+import a11yCss from "../../a11y/a11y.css?url";
 import { AccessibilityKit } from "../components/AccessibilityKit";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "../integrations/supabase/client";
