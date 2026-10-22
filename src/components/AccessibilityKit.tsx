@@ -5,7 +5,7 @@
  *  telas logadas, 404). É o mesmo sistema do site de marketing: Libras
  *  (VLibras), leitor em voz alta e ajustes visuais.
  *
- *  O motor fica em src/a11y/nuppy-a11y.js e os estilos em src/a11y/a11y.css.
+ *  O motor fica em s../../../a11y/nuppy-a11y.js e os estilos em src/a11y/a11y.css.
  *  Aqui só ligamos o motor ao React: montar no navegador, desmontar ao sair e
  *  navegar pelo router (sem recarregar a página) quando alguém usa "Ir para".
  *
@@ -36,7 +36,7 @@ export function AccessibilityKit() {
     };
 
     // import dinâmico: o motor só é baixado no navegador, nunca no servidor.
-    void import("../a11y/nuppy-a11y.js").then(({ initA11y }) => {
+    void import("../../../a11y/nuppy-a11y.js").then(({ initA11y }) => {
       if (dead) return;
       destroy = initA11y({
         reader: "auto",
