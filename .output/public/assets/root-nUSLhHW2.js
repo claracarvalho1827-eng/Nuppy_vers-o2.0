@@ -1,0 +1,1 @@
+function e(e){return e?.isNotFound===!0}var t=`__root__`;export{e as n,t};

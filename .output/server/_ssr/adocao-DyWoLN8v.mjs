@@ -1,0 +1,60 @@
+//#region node_modules/.nitro/vite/services/ssr/assets/adocao-DyWoLN8v.js
+var UFS = [
+	"AC",
+	"AL",
+	"AP",
+	"AM",
+	"BA",
+	"CE",
+	"DF",
+	"ES",
+	"GO",
+	"MA",
+	"MT",
+	"MS",
+	"MG",
+	"PA",
+	"PB",
+	"PR",
+	"PE",
+	"PI",
+	"RJ",
+	"RN",
+	"RS",
+	"RO",
+	"RR",
+	"SC",
+	"SP",
+	"SE",
+	"TO"
+];
+var SPECIES = [
+	{
+		value: "cachorro",
+		label: "Cachorro"
+	},
+	{
+		value: "gato",
+		label: "Gato"
+	},
+	{
+		value: "outro",
+		label: "Outro"
+	}
+];
+var GENDERS = [{
+	value: "macho",
+	label: "Macho"
+}, {
+	value: "femea",
+	label: "Fêmea"
+}];
+var SIZES = [
+	"Pequeno",
+	"Médio",
+	"Grande"
+];
+var inputCls = "w-full rounded-xl bg-card border border-border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30";
+var PET_COLUMNS = "id, owner_id, name, species, age, gender, size, color, city, state, photo_url, neutered, vaccinated, adoption_description, contact_whatsapp, created_at";
+//#endregion
+export { UFS as a, SPECIES as i, PET_COLUMNS as n, inputCls as o, SIZES as r, GENDERS as t };

@@ -29,6 +29,7 @@ import { Route as AuthenticatedConfiguracoesPrivacidadeRouteImport } from './rou
 import { Route as AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport } from './routes/_authenticated/configuracoes.privacidade-politica'
 import { Route as AuthenticatedConfiguracoesTermosRouteImport } from './routes/_authenticated/configuracoes.termos'
 import { Route as AuthenticatedEstabelecimentoIdRouteImport } from './routes/_authenticated/estabelecimento.$id'
+import { Route as AuthenticatedOngOngIdRouteImport } from './routes/_authenticated/ong.$ongId'
 import { Route as AuthenticatedPetNovoRouteImport } from './routes/_authenticated/pet.novo'
 
 const IndexRoute = IndexRouteImport.update({
@@ -141,6 +142,11 @@ const AuthenticatedEstabelecimentoIdRoute =
     path: '/estabelecimento/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedOngOngIdRoute = AuthenticatedOngOngIdRouteImport.update({
+  id: '/ong/$ongId',
+  path: '/ong/$ongId',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPetNovoRoute = AuthenticatedPetNovoRouteImport.update({
   id: '/pet/novo',
   path: '/pet/novo',
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   '/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
+  '/ong/$ongId': typeof AuthenticatedOngOngIdRoute
   '/pet/novo': typeof AuthenticatedPetNovoRoute
   '/adocao/': typeof AuthenticatedAdocaoIndexRoute
   '/configuracoes/': typeof AuthenticatedConfiguracoesIndexRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   '/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
+  '/ong/$ongId': typeof AuthenticatedOngOngIdRoute
   '/pet/novo': typeof AuthenticatedPetNovoRoute
   '/adocao': typeof AuthenticatedAdocaoIndexRoute
   '/configuracoes': typeof AuthenticatedConfiguracoesIndexRoute
@@ -211,6 +219,7 @@ export interface FileRoutesById {
   '/_authenticated/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   '/_authenticated/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/_authenticated/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
+  '/_authenticated/ong/$ongId': typeof AuthenticatedOngOngIdRoute
   '/_authenticated/pet/novo': typeof AuthenticatedPetNovoRoute
   '/_authenticated/adocao/': typeof AuthenticatedAdocaoIndexRoute
   '/_authenticated/configuracoes/': typeof AuthenticatedConfiguracoesIndexRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/configuracoes/privacidade-politica'
     | '/configuracoes/termos'
     | '/estabelecimento/$id'
+    | '/ong/$ongId'
     | '/pet/novo'
     | '/adocao/'
     | '/configuracoes/'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/configuracoes/privacidade-politica'
     | '/configuracoes/termos'
     | '/estabelecimento/$id'
+    | '/ong/$ongId'
     | '/pet/novo'
     | '/adocao'
     | '/configuracoes'
@@ -280,6 +291,7 @@ export interface FileRouteTypes {
     | '/_authenticated/configuracoes/privacidade-politica'
     | '/_authenticated/configuracoes/termos'
     | '/_authenticated/estabelecimento/$id'
+    | '/_authenticated/ong/$ongId'
     | '/_authenticated/pet/novo'
     | '/_authenticated/adocao/'
     | '/_authenticated/configuracoes/'
@@ -433,6 +445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEstabelecimentoIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ong/$ongId': {
+      id: '/_authenticated/ong/$ongId'
+      path: '/ong/$ongId'
+      fullPath: '/ong/$ongId'
+      preLoaderRoute: typeof AuthenticatedOngOngIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pet/novo': {
       id: '/_authenticated/pet/novo'
       path: '/pet/novo'
@@ -459,6 +478,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedConfiguracoesPrivacidadePoliticaRoute: typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   AuthenticatedConfiguracoesTermosRoute: typeof AuthenticatedConfiguracoesTermosRoute
   AuthenticatedEstabelecimentoIdRoute: typeof AuthenticatedEstabelecimentoIdRoute
+  AuthenticatedOngOngIdRoute: typeof AuthenticatedOngOngIdRoute
   AuthenticatedPetNovoRoute: typeof AuthenticatedPetNovoRoute
   AuthenticatedAdocaoIndexRoute: typeof AuthenticatedAdocaoIndexRoute
   AuthenticatedConfiguracoesIndexRoute: typeof AuthenticatedConfiguracoesIndexRoute
@@ -483,6 +503,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedConfiguracoesPrivacidadePoliticaRoute,
   AuthenticatedConfiguracoesTermosRoute: AuthenticatedConfiguracoesTermosRoute,
   AuthenticatedEstabelecimentoIdRoute: AuthenticatedEstabelecimentoIdRoute,
+  AuthenticatedOngOngIdRoute: AuthenticatedOngOngIdRoute,
   AuthenticatedPetNovoRoute: AuthenticatedPetNovoRoute,
   AuthenticatedAdocaoIndexRoute: AuthenticatedAdocaoIndexRoute,
   AuthenticatedConfiguracoesIndexRoute: AuthenticatedConfiguracoesIndexRoute,
