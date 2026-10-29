@@ -95,6 +95,7 @@ function MapBody() {
   const userMarkerRef = useRef<any>(null);
   const infoRef = useRef<any>(null);
   const [ready, setReady] = useState(false);
+  const [mapError, setMapError] = useState<string | null>(null);
   const [selected, setSelected] = useState<Place | null>(null);
   const [activeCat, setActiveCat] = useState<string>("Todos");
   const [search, setSearch] = useState("");
@@ -118,21 +119,51 @@ function MapBody() {
     return list;
   }, [places, activeCat, search, userPos]);
 
-  // Load Google Maps script
+  // Load Google Maps directly, without a Lovable-specific connector.
   useEffect(() => {
-    if (window.google?.maps) { setReady(true); return; }
-    if (document.querySelector("script[data-nuppy-gmaps]")) {
-      window.__nuppyInitMap = () => setReady(true);
+    if (window.google?.maps) {
+      setReady(true);
       return;
     }
-    const key = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY;
-    const channel = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID;
-    window.__nuppyInitMap = () => setReady(true);
-    const s = document.createElement("script");
-    s.dataset.nuppyGmaps = "1";
-    s.src = `https://maps.googleapis.com/maps/api/js?key=${key}&loading=async&callback=__nuppyInitMap&channel=${channel}`;
-    s.async = true;
-    document.head.appendChild(s);
+
+    const key = import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim();
+    if (!key) {
+      setMapError(
+        "A chave do Google Maps não foi configurada. Adicione VITE_GOOGLE_MAPS_API_KEY nas variáveis de ambiente da Vercel e publique novamente."
+      );
+      return;
+    }
+
+    const existingScript = document.querySelector<HTMLScriptElement>("script[data-nuppy-gmaps]");
+    if (existingScript) {
+      window.__nuppyInitMap = () => {
+        setMapError(null);
+        setReady(true);
+      };
+      existingScript.addEventListener("error", () => {
+        setMapError("Não foi possível carregar o Google Maps. Verifique a chave, as restrições de domínio e se a Maps JavaScript API está habilitada.");
+      }, { once: true });
+      return;
+    }
+
+    window.__nuppyInitMap = () => {
+      setMapError(null);
+      setReady(true);
+    };
+
+    const script = document.createElement("script");
+    script.dataset.nuppyGmaps = "1";
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&loading=async&callback=__nuppyInitMap`;
+    script.async = true;
+    script.onerror = () => {
+      setMapError("O Google Maps não carregou. Verifique a chave de API, as restrições de domínio, o faturamento e a Maps JavaScript API no Google Cloud.");
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      // Keep the global callback available while the script is loading.
+      if (!window.google?.maps) window.__nuppyInitMap = undefined;
+    };
   }, []);
 
   // Init map
@@ -281,8 +312,15 @@ function MapBody() {
           className={`absolute inset-0 bg-muted ${view === "map" ? "block" : "invisible"}`}
         />
         {!ready && view === "map" && (
-          <div className="absolute inset-0 grid place-items-center text-muted-foreground pointer-events-none bg-muted">
-            <div className="font-display animate-pulse">Carregando Google Maps...</div>
+          <div className="absolute inset-0 grid place-items-center bg-muted p-6 text-center">
+            <div className="max-w-sm">
+              {mapError ? (
+                <p role="alert" className="text-sm text-destructive">{mapError}</p>
+              ) : (
+                <p className="font-display animate-pulse text-muted-foreground">Carregando Google Maps...</p>
+              )}
+              <p className="mt-3 text-xs text-muted-foreground">Você também pode alternar para a lista de locais.</p>
+            </div>
           </div>
         )}
 
