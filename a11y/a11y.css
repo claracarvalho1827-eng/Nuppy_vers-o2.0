@@ -32,7 +32,7 @@ html[data-filter=inv] img, html[data-filter=inv] video { filter: invert(1) hue-r
 .a-skip:focus { left: 0; }
 
 /* o botão flutuante padrão do VLibras fica escondido: a barra do Nuppy abre o tradutor */
-{[vw] [vw-access-button]  display: none  !important; }
+[vw] [vw-access-button] { display: none !important; }
 
 /* ---------- texto: espaçamentos e fonte ---------- */
 body[data-lh="1"] :where(p,li,summary,label,small,legend,span,div) { line-height: 1.9 !important; }
