@@ -1,28 +1,11 @@
-/* ============================================================================
- *  PÁGINA: /home  —  TELA INICIAL DO APP
- * ----------------------------------------------------------------------------
- *  É a primeira tela depois que o usuário faz login. Mostra:
- *    1) cabeçalho com o logo Nuppy
- *    2) barra de busca
- *    3) destaques (Adoção, Veterinário, Pet Shop) — cards coloridos
- *    4) card "Estabelecimentos pet"
- *    5) seção de pets para adoção (vinda do banco de dados)
- *
- *  👉 GUIA RÁPIDO:
- *    • Trocar o LOGO no topo            → componente <NuppyLogo /> (linha ~75)
- *    • Mudar o texto "Onde todo animal…"→ linha ~78
- *    • Adicionar/remover CATEGORIA      → array `categories` (linha ~33)
- *    • Mudar a COR dos cards categoria  → propriedade `bg` (gradiente Tailwind)
- *    • Mudar o ícone do MICROFONE       → componente <Mic /> linha ~92
- *    • Mexer no botão "Ver tudo"        → linha ~117
- * ========================================================================== */
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Search, Mic, Heart, MapPin } from "lucide-react";
+import { Search, Mic, Heart, MapPin, Plus } from "lucide-react";
 import { Suspense } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NuppyLogo } from "@/components/NuppyLogo";
 import { MobileShell } from "@/components/MobileShell";
+import { PET_COLUMNS, type AdoptionPet } from "@/lib/adocao";
 import peludinho from "@/assets/peludinho.png";
 import passaro from "@/assets/passaro.png";
 import cachorro from "@/assets/cachorro.png";
@@ -30,17 +13,10 @@ import gato from "@/assets/gato.png";
 import peixe from "@/assets/peixe.png";
 
 export const Route = createFileRoute("/_authenticated/home")({
-  head: () => ({ meta: [{ title: "Início — Nuppy" }] }), // título que aparece na aba do navegador
+  head: () => ({ meta: [{ title: "Início — Nuppy" }] }),
   component: HomePage,
 });
 
-/* ----------------------------------------------------------------------------
- * CATEGORIAS DE DESTAQUE (cards grandes no topo)
- *  - label : texto que aparece no canto inferior do card
- *  - image : imagem grande do card
- *  - bg    : GRADIENTE de fundo (formato Tailwind: from-COR-INTENSIDADE to-COR-INTENSIDADE)
- *            Ex.: "from-pink-200 to-orange-100" = rosa → laranja
- * -------------------------------------------------------------------------- */
 const categories = [
   { label: "Adoção", image: cachorro, bg: "from-pink-200 to-orange-100" },
   { label: "Veterinário", image: gato, bg: "from-amber-200 to-orange-100" },
@@ -49,131 +25,137 @@ const categories = [
 
 function HomePage() {
   return (
-    // MobileShell = "moldura" do app (centraliza e coloca a BottomNav embaixo)
     <MobileShell>
-      {/* ============== CABEÇALHO COM LOGO ============== */}
+      {/* CABEÇALHO */}
       <header className="relative pt-4 pb-2 px-4">
         <div className="flex justify-center">
-          {/*  LOGO Nuppy. Pra trocar a imagem: edite src/components/NuppyLogo.tsx */}
           <NuppyLogo className="h-32 drop-shadow-sm" />
         </div>
-
-        {/*  "Etiquetinha" laranja com o slogan, ligeiramente sobreposta ao logo */}
         <div className="-mt-6 flex justify-center">
           <span className="rounded-full bg-primary text-primary-foreground text-xs font-display px-4 py-1.5 shadow-soft">
-            {/* 👇 TEXTO DO SLOGAN — troque aqui pra mudar a frase */}
             Onde todo animal encontra cuidado.
           </span>
         </div>
       </header>
 
-      {/* ============== BARRA DE BUSCA ============== */}
+      {/* BUSCA */}
       <div className="px-4 mt-4">
         <label className="relative block">
-          {/* 🔍 ícone da lupa (lado esquerdo) */}
           <Search className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-
-          {/* CAMPO de texto onde o usuário digita */}
           <input
             placeholder="Buscar..."
             className="w-full rounded-full bg-card border border-border pl-11 pr-12 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
           />
-
-          {/* 🎤 BOTÃO REDONDO DO MICROFONE (laranja, à direita)
-              Pra mudar a cor do botão: troque `bg-primary` por `bg-love`, etc. */}
           <button className="absolute right-1.5 top-1/2 -translate-y-1/2 size-9 rounded-full bg-primary grid place-items-center text-primary-foreground">
             <Mic className="size-4" />
           </button>
         </label>
       </div>
 
-      {/* ============== SEÇÃO DESTAQUE (3 cards) ============== */}
+      {/* DESTAQUE */}
       <section className="px-4 mt-6">
-        {/* TÍTULO da seção. `text-brand` = marrom-chocolate da paleta Nuppy */}
         <h2 className="font-display text-lg text-brand mb-2">Destaque</h2>
-
-        {/* Grade de 3 colunas igualmente divididas (grid-cols-3) */}
         <div className="grid grid-cols-3 gap-3">
           {categories.map((c) => (
             <Link
               key={c.label}
               to="/estabelecimentos"
-              className={
-                // 👇 AQUI o gradiente de cor do card vem da `c.bg`
-                `rounded-2xl bg-gradient-to-br ${c.bg} aspect-square flex flex-col items-end p-2 shadow-card hover:scale-[1.02] transition`
-              }
+              className={`rounded-2xl bg-gradient-to-br ${c.bg} aspect-square flex flex-col items-end p-2 shadow-card hover:scale-[1.02] transition`}
             >
-              <img
-                src={c.image}
-                alt=""
-                className="size-14 ml-auto object-contain drop-shadow-sm"
-              />
-              <span className="mt-auto font-display text-sm text-brand">
-                {c.label}
-              </span>
+              <img src={c.image} alt="" className="size-14 ml-auto object-contain drop-shadow-sm" />
+              <span className="mt-auto font-display text-sm text-brand">{c.label}</span>
             </Link>
           ))}
         </div>
 
-        {/* CARD GRANDE de "Estabelecimentos pet" (logo abaixo das 3 categorias) */}
         <Link
           to="/estabelecimentos"
           className="mt-3 nuppy-card p-4 flex items-center justify-between hover:shadow-soft transition"
         >
           <div>
             <p className="font-display text-brand">Estabelecimentos pet</p>
-            <p className="text-xs text-muted-foreground">
-              ONGs, banho, hotéis, alimentação e mais
-            </p>
+            <p className="text-xs text-muted-foreground">ONGs, banho, hotéis, alimentação e mais</p>
           </div>
-          <span className="text-2xl"></span>
+          <img src={peludinho} alt="" className="size-12 object-contain" />
         </Link>
+
         <Link
           to="/servicos"
           className="mt-3 nuppy-card p-4 flex items-center justify-between hover:shadow-soft transition"
         >
           <div>
             <p className="font-display text-brand">Serviços pet</p>
-            <p className="text-xs text-muted-foreground">
-              Consultas, adestramento, veterinária e mais
-            </p>
+            <p className="text-xs text-muted-foreground">Consultas, adestramento, veterinária e mais</p>
           </div>
-          <span className="text-2xl"></span>
+          <img src={passaro} alt="" className="size-12 object-contain" />
         </Link>
       </section>
-      {/* ============== ONGs ============== */}
-<section className="px-4 mt-6">
-  <div className="nuppy-card p-4">
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <span className="text-xl">🤝</span>
-        <h2 className="font-display text-lg text-brand">ONGs</h2>
-      </div>
-      <Link to="/ongs" className="text-sm font-display text-primary">
-        Ver todas →
-      </Link>
-    </div>
 
-    <Suspense fallback={<div className="h-40 mt-3 grid grid-cols-2 gap-3"><Skel /><Skel /></div>}>
-      <OngsList />
-    </Suspense>
-  </div>
-</section>
+      {/* ONGs */}
+      <section className="px-4 mt-6">
+        <div className="nuppy-card p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <img src={peludinho} alt="" className="size-7 object-contain" />
+              <h2 className="font-display text-lg text-brand">ONGs</h2>
+            </div>
+            <Link to="/ongs" className="text-sm font-display text-primary">Ver todas →</Link>
+          </div>
+          <Suspense fallback={<div className="h-40 mt-3 grid grid-cols-2 gap-3"><Skel /><Skel /></div>}>
+            <OngsList />
+          </Suspense>
+        </div>
+      </section>
+
+      {/* ADOÇÃO DE PETS */}
+      <section className="px-4 mt-6">
+        <div className="nuppy-card p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <img src={cachorro} alt="" className="size-7 object-contain" />
+              <h2 className="font-display text-lg text-brand">Adoção de Pets</h2>
+            </div>
+            <Link to="/adocao" className="text-sm font-display text-primary">Ver tudo →</Link>
+          </div>
+
+          <Suspense fallback={<div className="h-40 mt-3 grid grid-cols-2 gap-3"><Skel /><Skel /></div>}>
+            <PetsForAdoption />
+          </Suspense>
+
+          <Link
+            to="/adocao/novo"
+            className="mt-3 w-full rounded-full bg-primary text-primary-foreground font-display text-sm py-2.5 flex items-center justify-center gap-1.5 shadow-soft"
+          >
+            <Plus className="size-4" />
+            Colocar pet para adoção
+          </Link>
+        </div>
+      </section>
     </MobileShell>
   );
 }
-import { Phone, Globe, MapPin } from "lucide-react";
 
+function Skel() {
+  return <div className="rounded-2xl bg-muted animate-pulse" />;
+}
+
+/* ---------------------------- ONGs ---------------------------- */
 const ongsQuery = {
   queryKey: ["ongs"],
   queryFn: async () => {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("ongs")
-      .select("id, name, description, photo_url, pix, website, phone, opening_hours, latitude, longitude, city")
+      .select("id, name, description, photo_url, city")
       .order("created_at", { ascending: false })
       .limit(6);
     if (error) throw error;
-    return data ?? [];
+    return (data ?? []) as {
+      id: string;
+      name: string;
+      description: string | null;
+      photo_url: string | null;
+      city: string | null;
+    }[];
   },
 };
 
@@ -201,10 +183,11 @@ function OngsList() {
             {ong.photo_url ? (
               <img src={ong.photo_url} alt={ong.name} className="w-full h-full object-cover" loading="lazy" />
             ) : (
-              <div className="w-full h-full grid place-items-center text-4xl">🐾</div>
+              <div className="w-full h-full grid place-items-center">
+                <img src={peludinho} alt="" className="size-16 object-contain" />
+              </div>
             )}
           </div>
-
           <div className="mt-2 px-1">
             <p className="font-display text-brand line-clamp-1">{ong.name}</p>
             {ong.description && (
@@ -216,6 +199,72 @@ function OngsList() {
                 {ong.city}
               </p>
             )}
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+/* ------------------------ PETS PARA ADOÇÃO ------------------------ */
+const adoptionQuery = {
+  queryKey: ["adoption-pets-home"],
+  queryFn: async () => {
+    const { data, error } = await (supabase as any)
+      .from("pets")
+      .select(PET_COLUMNS)
+      .eq("for_adoption", true)
+      .order("created_at", { ascending: false })
+      .limit(6);
+    if (error) throw error;
+    return (data ?? []) as AdoptionPet[];
+  },
+};
+
+function PetsForAdoption() {
+  const { data } = useSuspenseQuery(adoptionQuery);
+
+  if (data.length === 0) {
+    return (
+      <div className="mt-3 rounded-2xl bg-secondary p-6 text-center text-sm text-muted-foreground">
+        Nenhum pet para adoção ainda. Seja o primeiro a cadastrar!
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-3 grid grid-cols-2 gap-3">
+      {data.slice(0, 2).map((pet) => (
+        <Link
+          key={pet.id}
+          to="/adocao/$petId"
+          params={{ petId: pet.id }}
+          className="rounded-2xl bg-accent p-2 relative block"
+        >
+          <div className="aspect-square rounded-xl overflow-hidden bg-muted">
+            {pet.photo_url ? (
+              <img src={pet.photo_url} alt={pet.name} className="w-full h-full object-cover" loading="lazy" />
+            ) : (
+              <div className="w-full h-full grid place-items-center">
+                <img src={cachorro} alt="" className="size-16 object-contain" />
+              </div>
+            )}
+          </div>
+
+          <Heart className="size-5 absolute top-3 right-3 text-love fill-love" />
+
+          <div className="mt-2 px-1">
+            <p className="font-display text-brand">{pet.name}</p>
+            <p className="text-xs text-muted-foreground flex items-center justify-between">
+              <span>{pet.age ?? "—"}</span>
+              {pet.city && (
+                <span className="flex items-center gap-1">
+                  <MapPin className="size-3" />
+                  {pet.city}
+                  {pet.state ? `, ${pet.state}` : ""}
+                </span>
+              )}
+            </p>
           </div>
         </Link>
       ))}
