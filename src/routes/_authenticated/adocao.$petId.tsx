@@ -7,7 +7,7 @@ import { MobileShell } from "@/components/MobileShell";
 import { PET_COLUMNS, SPECIES, type AdoptionPet } from "@/lib/adocao";
 import cachorro from "@/assets/cachorro.png";
 
-export const Route = createFileRoute("/_authenticated/adocao/$petId" as any)({
+export const Route = createFileRoute("/_authenticated/adocao/$petId")({
   head: () => ({ meta: [{ title: "Pet para adoção — Nuppy" }] }),
   component: PetAdocaoPage,
 });
@@ -27,7 +27,7 @@ function PetAdocaoPage() {
   const { data: pet, isLoading } = useQuery({
     queryKey: ["adoption-pet", petId],
     queryFn: async () => {
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from("pets")
         .select(PET_COLUMNS)
         .eq("id", petId)
@@ -45,7 +45,7 @@ function PetAdocaoPage() {
   async function markAdopted() {
     if (!confirm("Marcar como adotado? O pet sai da lista de adoção.")) return;
     setBusy(true);
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from("pets")
       .update({ for_adoption: false })
       .eq("id", petId);

@@ -19,6 +19,9 @@ import { Route as AuthenticatedLocalRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedServicosRouteImport } from './routes/_authenticated/servicos'
 import { Route as AuthenticatedSocialRouteImport } from './routes/_authenticated/social'
+import { Route as AuthenticatedAdocaoIndexRouteImport } from './routes/_authenticated/adocao.index'
+import { Route as AuthenticatedAdocaoPetIdRouteImport } from './routes/_authenticated/adocao.$petId'
+import { Route as AuthenticatedAdocaoNovoRouteImport } from './routes/_authenticated/adocao.novo'
 import { Route as AuthenticatedComunidadeSlugRouteImport } from './routes/_authenticated/comunidade.$slug'
 import { Route as AuthenticatedConfiguracoesIndexRouteImport } from './routes/_authenticated/configuracoes.index'
 import { Route as AuthenticatedConfiguracoesContatoRouteImport } from './routes/_authenticated/configuracoes.contato'
@@ -26,7 +29,6 @@ import { Route as AuthenticatedConfiguracoesPrivacidadeRouteImport } from './rou
 import { Route as AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport } from './routes/_authenticated/configuracoes.privacidade-politica'
 import { Route as AuthenticatedConfiguracoesTermosRouteImport } from './routes/_authenticated/configuracoes.termos'
 import { Route as AuthenticatedEstabelecimentoIdRouteImport } from './routes/_authenticated/estabelecimento.$id'
-import { Route as AuthenticatedPetPetIdRouteImport } from './routes/_authenticated/pet.$petId'
 import { Route as AuthenticatedPetNovoRouteImport } from './routes/_authenticated/pet.novo'
 
 const IndexRoute = IndexRouteImport.update({
@@ -80,6 +82,23 @@ const AuthenticatedSocialRoute = AuthenticatedSocialRouteImport.update({
   path: '/social',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdocaoIndexRoute =
+  AuthenticatedAdocaoIndexRouteImport.update({
+    id: '/adocao/',
+    path: '/adocao/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdocaoPetIdRoute =
+  AuthenticatedAdocaoPetIdRouteImport.update({
+    id: '/adocao/$petId',
+    path: '/adocao/$petId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdocaoNovoRoute = AuthenticatedAdocaoNovoRouteImport.update({
+  id: '/adocao/novo',
+  path: '/adocao/novo',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedComunidadeSlugRoute =
   AuthenticatedComunidadeSlugRouteImport.update({
     id: '/comunidade/$slug',
@@ -122,11 +141,6 @@ const AuthenticatedEstabelecimentoIdRoute =
     path: '/estabelecimento/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedPetPetIdRoute = AuthenticatedPetPetIdRouteImport.update({
-  id: '/pet/$petId',
-  path: '/pet/$petId',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedPetNovoRoute = AuthenticatedPetNovoRouteImport.update({
   id: '/pet/novo',
   path: '/pet/novo',
@@ -143,14 +157,16 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/servicos': typeof AuthenticatedServicosRoute
   '/social': typeof AuthenticatedSocialRoute
+  '/adocao/$petId': typeof AuthenticatedAdocaoPetIdRoute
+  '/adocao/novo': typeof AuthenticatedAdocaoNovoRoute
   '/comunidade/$slug': typeof AuthenticatedComunidadeSlugRoute
   '/configuracoes/contato': typeof AuthenticatedConfiguracoesContatoRoute
   '/configuracoes/privacidade': typeof AuthenticatedConfiguracoesPrivacidadeRoute
   '/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   '/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
-  '/pet/$petId': typeof AuthenticatedPetPetIdRoute
   '/pet/novo': typeof AuthenticatedPetNovoRoute
+  '/adocao/': typeof AuthenticatedAdocaoIndexRoute
   '/configuracoes/': typeof AuthenticatedConfiguracoesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -163,14 +179,16 @@ export interface FileRoutesByTo {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/servicos': typeof AuthenticatedServicosRoute
   '/social': typeof AuthenticatedSocialRoute
+  '/adocao/$petId': typeof AuthenticatedAdocaoPetIdRoute
+  '/adocao/novo': typeof AuthenticatedAdocaoNovoRoute
   '/comunidade/$slug': typeof AuthenticatedComunidadeSlugRoute
   '/configuracoes/contato': typeof AuthenticatedConfiguracoesContatoRoute
   '/configuracoes/privacidade': typeof AuthenticatedConfiguracoesPrivacidadeRoute
   '/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   '/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
-  '/pet/$petId': typeof AuthenticatedPetPetIdRoute
   '/pet/novo': typeof AuthenticatedPetNovoRoute
+  '/adocao': typeof AuthenticatedAdocaoIndexRoute
   '/configuracoes': typeof AuthenticatedConfiguracoesIndexRoute
 }
 export interface FileRoutesById {
@@ -185,14 +203,16 @@ export interface FileRoutesById {
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/servicos': typeof AuthenticatedServicosRoute
   '/_authenticated/social': typeof AuthenticatedSocialRoute
+  '/_authenticated/adocao/$petId': typeof AuthenticatedAdocaoPetIdRoute
+  '/_authenticated/adocao/novo': typeof AuthenticatedAdocaoNovoRoute
   '/_authenticated/comunidade/$slug': typeof AuthenticatedComunidadeSlugRoute
   '/_authenticated/configuracoes/contato': typeof AuthenticatedConfiguracoesContatoRoute
   '/_authenticated/configuracoes/privacidade': typeof AuthenticatedConfiguracoesPrivacidadeRoute
   '/_authenticated/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   '/_authenticated/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/_authenticated/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
-  '/_authenticated/pet/$petId': typeof AuthenticatedPetPetIdRoute
   '/_authenticated/pet/novo': typeof AuthenticatedPetNovoRoute
+  '/_authenticated/adocao/': typeof AuthenticatedAdocaoIndexRoute
   '/_authenticated/configuracoes/': typeof AuthenticatedConfiguracoesIndexRoute
 }
 export interface FileRouteTypes {
@@ -207,14 +227,16 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/servicos'
     | '/social'
+    | '/adocao/$petId'
+    | '/adocao/novo'
     | '/comunidade/$slug'
     | '/configuracoes/contato'
     | '/configuracoes/privacidade'
     | '/configuracoes/privacidade-politica'
     | '/configuracoes/termos'
     | '/estabelecimento/$id'
-    | '/pet/$petId'
     | '/pet/novo'
+    | '/adocao/'
     | '/configuracoes/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -227,14 +249,16 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/servicos'
     | '/social'
+    | '/adocao/$petId'
+    | '/adocao/novo'
     | '/comunidade/$slug'
     | '/configuracoes/contato'
     | '/configuracoes/privacidade'
     | '/configuracoes/privacidade-politica'
     | '/configuracoes/termos'
     | '/estabelecimento/$id'
-    | '/pet/$petId'
     | '/pet/novo'
+    | '/adocao'
     | '/configuracoes'
   id:
     | '__root__'
@@ -248,14 +272,16 @@ export interface FileRouteTypes {
     | '/_authenticated/perfil'
     | '/_authenticated/servicos'
     | '/_authenticated/social'
+    | '/_authenticated/adocao/$petId'
+    | '/_authenticated/adocao/novo'
     | '/_authenticated/comunidade/$slug'
     | '/_authenticated/configuracoes/contato'
     | '/_authenticated/configuracoes/privacidade'
     | '/_authenticated/configuracoes/privacidade-politica'
     | '/_authenticated/configuracoes/termos'
     | '/_authenticated/estabelecimento/$id'
-    | '/_authenticated/pet/$petId'
     | '/_authenticated/pet/novo'
+    | '/_authenticated/adocao/'
     | '/_authenticated/configuracoes/'
   fileRoutesById: FileRoutesById
 }
@@ -337,6 +363,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSocialRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/adocao/': {
+      id: '/_authenticated/adocao/'
+      path: '/adocao'
+      fullPath: '/adocao/'
+      preLoaderRoute: typeof AuthenticatedAdocaoIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/adocao/$petId': {
+      id: '/_authenticated/adocao/$petId'
+      path: '/adocao/$petId'
+      fullPath: '/adocao/$petId'
+      preLoaderRoute: typeof AuthenticatedAdocaoPetIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/adocao/novo': {
+      id: '/_authenticated/adocao/novo'
+      path: '/adocao/novo'
+      fullPath: '/adocao/novo'
+      preLoaderRoute: typeof AuthenticatedAdocaoNovoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/comunidade/$slug': {
       id: '/_authenticated/comunidade/$slug'
       path: '/comunidade/$slug'
@@ -386,13 +433,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEstabelecimentoIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/pet/$petId': {
-      id: '/_authenticated/pet/$petId'
-      path: '/pet/$petId'
-      fullPath: '/pet/$petId'
-      preLoaderRoute: typeof AuthenticatedPetPetIdRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/pet/novo': {
       id: '/_authenticated/pet/novo'
       path: '/pet/novo'
@@ -411,14 +451,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedServicosRoute: typeof AuthenticatedServicosRoute
   AuthenticatedSocialRoute: typeof AuthenticatedSocialRoute
+  AuthenticatedAdocaoPetIdRoute: typeof AuthenticatedAdocaoPetIdRoute
+  AuthenticatedAdocaoNovoRoute: typeof AuthenticatedAdocaoNovoRoute
   AuthenticatedComunidadeSlugRoute: typeof AuthenticatedComunidadeSlugRoute
   AuthenticatedConfiguracoesContatoRoute: typeof AuthenticatedConfiguracoesContatoRoute
   AuthenticatedConfiguracoesPrivacidadeRoute: typeof AuthenticatedConfiguracoesPrivacidadeRoute
   AuthenticatedConfiguracoesPrivacidadePoliticaRoute: typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
   AuthenticatedConfiguracoesTermosRoute: typeof AuthenticatedConfiguracoesTermosRoute
   AuthenticatedEstabelecimentoIdRoute: typeof AuthenticatedEstabelecimentoIdRoute
-  AuthenticatedPetPetIdRoute: typeof AuthenticatedPetPetIdRoute
   AuthenticatedPetNovoRoute: typeof AuthenticatedPetNovoRoute
+  AuthenticatedAdocaoIndexRoute: typeof AuthenticatedAdocaoIndexRoute
   AuthenticatedConfiguracoesIndexRoute: typeof AuthenticatedConfiguracoesIndexRoute
 }
 
@@ -430,6 +472,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedServicosRoute: AuthenticatedServicosRoute,
   AuthenticatedSocialRoute: AuthenticatedSocialRoute,
+  AuthenticatedAdocaoPetIdRoute: AuthenticatedAdocaoPetIdRoute,
+  AuthenticatedAdocaoNovoRoute: AuthenticatedAdocaoNovoRoute,
   AuthenticatedComunidadeSlugRoute: AuthenticatedComunidadeSlugRoute,
   AuthenticatedConfiguracoesContatoRoute:
     AuthenticatedConfiguracoesContatoRoute,
@@ -439,8 +483,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedConfiguracoesPrivacidadePoliticaRoute,
   AuthenticatedConfiguracoesTermosRoute: AuthenticatedConfiguracoesTermosRoute,
   AuthenticatedEstabelecimentoIdRoute: AuthenticatedEstabelecimentoIdRoute,
-  AuthenticatedPetPetIdRoute: AuthenticatedPetPetIdRoute,
   AuthenticatedPetNovoRoute: AuthenticatedPetNovoRoute,
+  AuthenticatedAdocaoIndexRoute: AuthenticatedAdocaoIndexRoute,
   AuthenticatedConfiguracoesIndexRoute: AuthenticatedConfiguracoesIndexRoute,
 }
 

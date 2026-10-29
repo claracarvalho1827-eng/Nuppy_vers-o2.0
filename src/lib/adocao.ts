@@ -24,7 +24,7 @@ export const PET_COLUMNS =
 
 export type AdoptionPet = {
   id: string;
-  owner_id: string | null;
+  owner_id: string;
   name: string;
   species: string | null;
   age: string | null;

@@ -168,6 +168,7 @@ export type Database = {
       pets: {
         Row: {
           adopted_at: string | null
+          adoption_description: string | null
           age: string | null
           allergies: string | null
           birthdate: string | null
@@ -175,9 +176,11 @@ export type Database = {
           city: string | null
           color: string | null
           created_at: string
+          contact_whatsapp: string | null
           description: string | null
           favorite_food: string | null
           favorite_toy: string | null
+          for_adoption: boolean
           gender: string | null
           id: string
           medical_notes: string | null
@@ -189,6 +192,7 @@ export type Database = {
           photo_url: string | null
           size: string | null
           species: string | null
+          state: string | null
           updated_at: string
           vaccinated: boolean | null
           vet_name: string | null
@@ -197,6 +201,7 @@ export type Database = {
         }
         Insert: {
           adopted_at?: string | null
+          adoption_description?: string | null
           age?: string | null
           allergies?: string | null
           birthdate?: string | null
@@ -204,9 +209,11 @@ export type Database = {
           city?: string | null
           color?: string | null
           created_at?: string
+          contact_whatsapp?: string | null
           description?: string | null
           favorite_food?: string | null
           favorite_toy?: string | null
+          for_adoption?: boolean
           gender?: string | null
           id?: string
           medical_notes?: string | null
@@ -218,6 +225,7 @@ export type Database = {
           photo_url?: string | null
           size?: string | null
           species?: string | null
+          state?: string | null
           updated_at?: string
           vaccinated?: boolean | null
           vet_name?: string | null
@@ -226,6 +234,7 @@ export type Database = {
         }
         Update: {
           adopted_at?: string | null
+          adoption_description?: string | null
           age?: string | null
           allergies?: string | null
           birthdate?: string | null
@@ -233,9 +242,11 @@ export type Database = {
           city?: string | null
           color?: string | null
           created_at?: string
+          contact_whatsapp?: string | null
           description?: string | null
           favorite_food?: string | null
           favorite_toy?: string | null
+          for_adoption?: boolean
           gender?: string | null
           id?: string
           medical_notes?: string | null
@@ -247,6 +258,7 @@ export type Database = {
           photo_url?: string | null
           size?: string | null
           species?: string | null
+          state?: string | null
           updated_at?: string
           vaccinated?: boolean | null
           vet_name?: string | null

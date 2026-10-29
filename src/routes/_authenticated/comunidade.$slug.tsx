@@ -99,14 +99,15 @@ function ChatPage() {
   );
 }
 
-function ChatError({ error, reset }: { error: Error; reset: () => void }) {
+function ChatError({ error, reset }: { error: unknown; reset: () => void }) {
   const router = useRouter();
+  const errorMessage = error instanceof Error ? error.message : String(error);
   return (
     <MobileShell>
       <div className="p-8 text-center space-y-3">
         <AlertTriangle className="size-10 text-primary mx-auto" />
         <p className="font-display text-brand">Não foi possível abrir o bate-papo</p>
-        <p className="text-xs text-muted-foreground">{error.message}</p>
+        <p className="text-xs text-muted-foreground">{errorMessage}</p>
         <div className="flex gap-2 justify-center">
           <button
             onClick={() => { router.invalidate(); reset(); }}

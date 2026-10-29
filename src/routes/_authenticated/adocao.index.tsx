@@ -22,7 +22,7 @@ function AdocaoPage() {
     queryKey: ["adoption-pets", species, state, deferredCity],
     placeholderData: keepPreviousData,
     queryFn: async () => {
-      let q = (supabase as any)
+      let q = supabase
         .from("pets")
         .select(PET_COLUMNS)
         .eq("for_adoption", true)

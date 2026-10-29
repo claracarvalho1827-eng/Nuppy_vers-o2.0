@@ -82,7 +82,7 @@ function NovoPetPage() {
       }
 
       // 2) linha na tabela pets
-      const { data, error: insErr } = await (supabase as any)
+      const { data, error: insErr } = await supabase
         .from("pets")
         .insert({
           owner_id: user.id,
