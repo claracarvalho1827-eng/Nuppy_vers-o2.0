@@ -1,1 +1,0 @@
-import{r as e}from"./useRouter-Cox3-v4z.js";import{k as t}from"./index-BBtybNOq.js";var n=e(),r=()=>(0,n.jsx)(t,{});export{r as component};

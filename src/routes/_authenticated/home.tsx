@@ -141,6 +141,84 @@ function HomePage() {
           <span className="text-2xl"></span>
         </Link>
       </section>
+      {/* ============== ONGs ============== */}
+<section className="px-4 mt-6">
+  <div className="nuppy-card p-4">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <span className="text-xl">🤝</span>
+        <h2 className="font-display text-lg text-brand">ONGs</h2>
+      </div>
+      <Link to="/ongs" className="text-sm font-display text-primary">
+        Ver todas →
+      </Link>
+    </div>
+
+    <Suspense fallback={<div className="h-40 mt-3 grid grid-cols-2 gap-3"><Skel /><Skel /></div>}>
+      <OngsList />
+    </Suspense>
+  </div>
+</section>
     </MobileShell>
+  );
+}
+import { Phone, Globe, MapPin } from "lucide-react";
+
+const ongsQuery = {
+  queryKey: ["ongs"],
+  queryFn: async () => {
+    const { data, error } = await supabase
+      .from("ongs")
+      .select("id, name, description, photo_url, pix, website, phone, opening_hours, latitude, longitude, city")
+      .order("created_at", { ascending: false })
+      .limit(6);
+    if (error) throw error;
+    return data ?? [];
+  },
+};
+
+function OngsList() {
+  const { data } = useSuspenseQuery(ongsQuery);
+
+  if (data.length === 0) {
+    return (
+      <div className="mt-3 rounded-2xl bg-secondary p-6 text-center text-sm text-muted-foreground">
+        Nenhuma ONG cadastrada ainda.
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-3 grid grid-cols-2 gap-3">
+      {data.slice(0, 2).map((ong) => (
+        <Link
+          key={ong.id}
+          to="/ong/$ongId"
+          params={{ ongId: ong.id }}
+          className="rounded-2xl bg-accent p-2 block"
+        >
+          <div className="aspect-square rounded-xl overflow-hidden bg-muted">
+            {ong.photo_url ? (
+              <img src={ong.photo_url} alt={ong.name} className="w-full h-full object-cover" loading="lazy" />
+            ) : (
+              <div className="w-full h-full grid place-items-center text-4xl">🐾</div>
+            )}
+          </div>
+
+          <div className="mt-2 px-1">
+            <p className="font-display text-brand line-clamp-1">{ong.name}</p>
+            {ong.description && (
+              <p className="text-xs text-muted-foreground line-clamp-2">{ong.description}</p>
+            )}
+            {ong.city && (
+              <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
+                <MapPin className="size-3" />
+                {ong.city}
+              </p>
+            )}
+          </div>
+        </Link>
+      ))}
+    </div>
   );
 }
