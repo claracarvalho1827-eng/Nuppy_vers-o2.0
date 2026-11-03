@@ -356,7 +356,7 @@ function AuthPage() {
                 />
                 <span>
                   Concordo com os <span className="text-primary underline">Termos de uso</span> e a{" "}
-                  <span className="text-primary underline">Política de privacidade</span>.
+                  <span className="text-primary underline">Políticas de privacidades</span>.
                 </span>
               </label>
             )}
