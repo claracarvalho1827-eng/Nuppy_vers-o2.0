@@ -75,7 +75,9 @@ function List() {
   const { data } = useSuspenseQuery(communitiesQuery);
   const qc = useQueryClient();
   const [userId, setUserId] = useState<string | null>(null);
-  useEffect(() => { supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null)); }, []);
+  useEffect(() => { supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null)
+  const [editing, setEditing] = useState<Community | null>(null);
+                                                ); }, []);
 
   async function join(c: Community) {
     async function deleteCommunity(c: Community) { const confirmed = window.confirm( `Deseja realmente excluir a comunidade "${c.name}"?` ); if (!confirmed) return; const { error } = await supabase .from("communities") .delete() .eq("id", c.id); if (error) { toast.error("Não foi possível excluir a comunidade."); return; } toast.success("Comunidade excluída!"); qc.invalidateQueries({ queryKey: ["communities"] }); }
@@ -101,6 +103,17 @@ function List() {
             <div className="size-14 rounded-full bg-gradient-to-br from-primary/30 to-accent grid place-items-center text-2xl overflow-hidden shrink-0">
               {c.cover_url ? <img src={c.cover_url} alt="" className="w-full h-full object-cover" /> : (c.emoji ?? "🐾")}
             </div>
+            );
+            })}
+            {editing && (
+  <EditModal
+    community={editing}
+    onClose={() => setEditing(null)}
+  />
+)}
+          </div>
+          );
+    }
             <div className="flex-1 min-w-0">
               <h3 className="font-display text-brand truncate">{c.emoji} {c.name}</h3>
               {c.description && <p className="text-xs text-muted-foreground line-clamp-1">{c.description}</p>}
@@ -124,6 +137,28 @@ function List() {
                 Entrar
               </button>
             )}
+            {/* CONTROLES EXCLUSIVOS DO CRIADOR */}
+{userId === c.created_by && (
+  <div className="flex items-center gap-2">
+    <button
+      type="button"
+      onClick={() => setEditing(c)}
+      className="size-9 rounded-full bg-accent text-brand grid place-items-center"
+      title="Editar comunidade"
+    >
+      <Pencil className="size-4" />
+    </button>
+
+    <button
+      type="button"
+      onClick={() => deleteCommunity(c)}
+      className="size-9 rounded-full bg-destructive/10 text-destructive grid place-items-center"
+      title="Excluir comunidade"
+    >
+      <Trash2 className="size-4" />
+    </button>
+  </div>
+)}
           </div>
         );
       })}
