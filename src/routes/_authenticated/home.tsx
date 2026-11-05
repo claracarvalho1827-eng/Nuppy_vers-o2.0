@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Search, Mic, Heart, MapPin, Plus } from "lucide-react";
+import { Search, Heart, MapPin, Plus } from "lucide-react";
 import { Suspense } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NuppyLogo } from "@/components/NuppyLogo";
