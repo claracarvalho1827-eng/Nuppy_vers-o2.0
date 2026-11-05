@@ -210,3 +210,122 @@ function CreateModal({ onClose }: { onClose: () => void }) {
     </div>
   );
 }
+
+function EditModal({
+  community,
+  onClose,
+}: {
+  community: Community;
+  onClose: () => void;
+}) {
+  const qc = useQueryClient();
+
+  const [form, setForm] = useState({
+    name: community.name,
+    description: community.description ?? "",
+    emoji: community.emoji ?? "🐾",
+    cover_url: community.cover_url ?? "",
+  });
+
+  const [busy, setBusy] = useState(false);
+
+  async function save(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+
+    try {
+      const { error } = await supabase
+        .from("communities")
+        .update({
+          name: form.name,
+          description: form.description,
+          emoji: form.emoji,
+          cover_url: form.cover_url || null,
+        })
+        .eq("id", community.id);
+
+      if (error) throw error;
+
+      toast.success("Comunidade atualizada!");
+      qc.invalidateQueries({ queryKey: ["communities"] });
+      onClose();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao atualizar");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/50 grid place-items-end sm:place-items-center"
+      onClick={onClose}
+    >
+      <form
+        onClick={(e) => e.stopPropagation()}
+        onSubmit={save}
+        className="w-full max-w-[480px] bg-card rounded-t-3xl sm:rounded-3xl p-6 space-y-3 max-h-[90vh] overflow-y-auto"
+      >
+        <h3 className="font-display text-xl text-brand">
+          Editar comunidade
+        </h3>
+
+        <div className="flex justify-center">
+          <ImageUpload
+            bucket="place-photos"
+            shape="wide"
+            value={form.cover_url}
+            onChange={(url) =>
+              setForm((f) => ({ ...f, cover_url: url }))
+            }
+            label="Foto de capa"
+          />
+        </div>
+
+        <div className="grid grid-cols-[80px_1fr] gap-3">
+          <input
+            className="nuppy-input pl-4 text-center text-xl"
+            placeholder="🐾"
+            value={form.emoji}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, emoji: e.target.value }))
+            }
+          />
+
+          <input
+            className="nuppy-input pl-4"
+            placeholder="Nome da comunidade"
+            required
+            value={form.name}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, name: e.target.value }))
+            }
+          />
+        </div>
+
+        <textarea
+          className="w-full rounded-2xl border border-border bg-card p-3 text-sm"
+          rows={3}
+          placeholder="Sobre o que é essa comunidade?"
+          value={form.description}
+          onChange={(e) =>
+            setForm((f) => ({ ...f, description: e.target.value }))
+          }
+        />
+
+        <button disabled={busy} className="nuppy-btn-primary">
+          {busy ? "Salvando..." : "Salvar alterações"}
+        </button>
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="nuppy-btn-ghost"
+        >
+          Cancelar
+        </button>
+      </form>
+    </div>
+  );
+}
+
