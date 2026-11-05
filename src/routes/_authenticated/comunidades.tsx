@@ -203,7 +203,20 @@ function CreateModal({ onClose }: { onClose: () => void }) {
           <input className="nuppy-input pl-4 text-center text-xl" placeholder="🐾" value={form.emoji} onChange={(e) => setForm((f) => ({ ...f, emoji: e.target.value }))} />
           <input className="nuppy-input pl-4" placeholder="Nome da comunidade" required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
         </div>
-        <textarea className="w-full rounded-2xl border border-border bg-card p-3 text-sm" rows={3} placeholder="Sobre o que é essa comunidade?" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
+        <textarea
+  className="w-full rounded-2xl border border-border bg-card p-3 text-sm"
+  rows={4}
+  maxLength={300}
+  placeholder="Apresente sua comunidade: fale sobre o grupo, seus objetivos e assuntos..."
+  value={form.description}
+  onChange={(e) =>
+    setForm((f) => ({ ...f, description: e.target.value }))
+  }
+/>
+
+<p className="text-xs text-muted-foreground text-right">
+  {form.description.length}/300 caracteres
+</p>
         <button disabled={busy} className="nuppy-btn-primary">{busy ? "Criando..." : "Criar comunidade"}</button>
         <button type="button" onClick={onClose} className="nuppy-btn-ghost">Cancelar</button>
       </form>
