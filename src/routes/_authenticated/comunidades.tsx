@@ -10,7 +10,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, useQueryClient } from "@tanstack/react-query";
 import { Suspense, useEffect, useState } from "react";
-import { ChevronLeft, Plus, Users, MessageCircle } from "lucide-react";
+import { ChevronLeft, Plus, Users, MessageCircle, Pencil, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/MobileShell";
 import { ImageUpload } from "@/components/ImageUpload";
@@ -78,6 +78,7 @@ function List() {
   useEffect(() => { supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null)); }, []);
 
   async function join(c: Community) {
+    async function deleteCommunity(c: Community) { const confirmed = window.confirm( `Deseja realmente excluir a comunidade "${c.name}"?` ); if (!confirmed) return; const { error } = await supabase .from("communities") .delete() .eq("id", c.id); if (error) { toast.error("Não foi possível excluir a comunidade."); return; } toast.success("Comunidade excluída!"); qc.invalidateQueries({ queryKey: ["communities"] }); }
     if (!userId) return;
     await supabase.from("community_members").insert({ community_id: c.id, user_id: userId });
     qc.invalidateQueries({ queryKey: ["communities"] });
