@@ -127,6 +127,7 @@ export function initA11y(opts = {}) {
 
   const html = `
 <div id="a11y-rail" role="toolbar" aria-label="Acessibilidade" aria-orientation="vertical">
+ <button type="button" data-act="libras" aria-label="Libras: abrir o tradutor com avatar (VLibras)" data-l="Libras (Alt+Shift+7)">${ic(I.libras)}</button>
  <button type="button" data-act="reader" aria-expanded="false" aria-controls="a11y-reader" aria-label="Leitor em voz alta" data-l="Voz (Alt+Shift+6)">${ic(I.voice)}</button>
  <button type="button" data-act="settings" aria-expanded="false" aria-controls="a11y-settings" aria-label="Ajustes de acessibilidade" data-l="Ajustes (Alt+Shift+5)">${ic(I.gear)}</button>
  <button type="button" data-act="hide" aria-label="Recolher a barra de acessibilidade" data-l="Recolher">${ic(I.eye)}</button>
