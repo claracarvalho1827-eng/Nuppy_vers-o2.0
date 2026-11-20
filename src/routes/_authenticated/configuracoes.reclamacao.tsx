@@ -67,10 +67,12 @@ type RefTipo = keyof typeof REFERENCIAS;
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+type ReclamacaoSearch = { tipo?: RefTipo; id?: string };
+
 export const Route = createFileRoute("/_authenticated/configuracoes/reclamacao")({
   head: () => ({ meta: [{ title: "Enviar reclamação — Nuppy" }] }),
   // ?tipo=post&id=<uuid>  → modo denúncia. Valores inválidos são ignorados.
-  validateSearch: (s: Record<string, unknown>): { tipo?: RefTipo; id?: string } => {
+  validateSearch: (s: Record<string, unknown>): ReclamacaoSearch => {
     const tipo =
       typeof s.tipo === "string" && Object.prototype.hasOwnProperty.call(REFERENCIAS, s.tipo)
         ? (s.tipo as RefTipo)
@@ -103,14 +105,15 @@ function mensagemDeErro(err: unknown): string {
     return `Você já tem ${MAX_ABERTAS} reclamações pendentes. Aguarde a equipe resolver alguma para enviar outra.`;
   if (txt.includes("limite_reclamacoes_diario"))
     return "Você atingiu o limite de envios de hoje. Tente novamente amanhã.";
-  return "Não foi possível enviar agora. Confira sua conexão e tente de novo.";
+  const code = typeof err === "object" && err && "code" in err ? String((err as { code: unknown }).code) : "";
+  return "Não foi possível enviar agora. Confira sua conexão e tente de novo." + (code ? ` (código ${code})` : "");
 }
 
 /* ---------- página ---------- */
 function ReclamacaoPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { tipo, id: refId } = Route.useSearch();
+  const { tipo, id: refId } = Route.useSearch() as ReclamacaoSearch;
   const ref = tipo && refId ? { tipo, id: refId } : null;
 
   const [aba, setAba] = useState<"nova" | "minhas">("nova");
@@ -146,7 +149,10 @@ function ReclamacaoPage() {
         .eq("user_id", me!.id)
         .order("created_at", { ascending: false })
         .limit(50);
-      if (error) throw error;
+      if (error) {
+        console.error("[reclamacao] erro ao carregar histórico:", error);
+        throw error;
+      }
       return (data ?? []) as Reclamacao[];
     },
   });
@@ -171,11 +177,14 @@ function ReclamacaoPage() {
       toast.success("Reclamação enviada");
       setMensagem("");
       setErro(null);
-      if (ref) navigate({ to: "/configuracoes/reclamacao", search: {}, replace: true });
+      if (ref) navigate({ to: ".", search: {}, replace: true });
       await queryClient.invalidateQueries({ queryKey: ["minhas-reclamacoes"] });
       setAba("minhas");
     },
-    onError: (err) => setErro(mensagemDeErro(err)),
+    onError: (err) => {
+      console.error("[reclamacao] erro ao enviar:", err);
+      setErro(mensagemDeErro(err));
+    },
   });
 
   function onSubmit(e: React.FormEvent) {
@@ -265,7 +274,7 @@ function ReclamacaoPage() {
                 <Flag className="size-4" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-display text-brand text-sm">Você está denunciando {REFERENCIAS[ref.tipo]}</p>
+                <p className="font-display text-brand text-sm">Você está denunciando {REFERENCIAS[ref.tipo as RefTipo]}</p>
                 <p className="text-xs text-muted-foreground">
                   Já identificamos o conteúdo. Conte o que aconteceu para a equipe analisar.
                 </p>
@@ -273,7 +282,7 @@ function ReclamacaoPage() {
               <button
                 type="button"
                 aria-label="Remover denúncia"
-                onClick={() => navigate({ to: "/configuracoes/reclamacao", search: {}, replace: true })}
+                onClick={() => navigate({ to: ".", search: {}, replace: true })}
                 className="size-8 shrink-0 grid place-items-center rounded-full hover:bg-accent"
               >
                 <X className="size-4 text-brand" />
