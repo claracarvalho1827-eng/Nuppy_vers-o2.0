@@ -508,6 +508,51 @@ export type Database = {
         }
         Relationships: []
       }
+      reclamacoes: {
+        Row: {
+          assunto: string | null
+          created_at: string
+          email: string | null
+          id: string
+          mensagem: string
+          nome: string | null
+          referencia_id: string | null
+          referencia_tipo: string | null
+          resolvida_em: string | null
+          resolvida_por: string | null
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          assunto?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          mensagem: string
+          nome?: string | null
+          referencia_id?: string | null
+          referencia_tipo?: string | null
+          resolvida_em?: string | null
+          resolvida_por?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          assunto?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          mensagem?: string
+          nome?: string | null
+          referencia_id?: string | null
+          referencia_tipo?: string | null
+          resolvida_em?: string | null
+          resolvida_por?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           category: string
