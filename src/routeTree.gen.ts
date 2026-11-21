@@ -27,6 +27,7 @@ import { Route as AuthenticatedConfiguracoesIndexRouteImport } from './routes/_a
 import { Route as AuthenticatedConfiguracoesContatoRouteImport } from './routes/_authenticated/configuracoes.contato'
 import { Route as AuthenticatedConfiguracoesPrivacidadeRouteImport } from './routes/_authenticated/configuracoes.privacidade'
 import { Route as AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport } from './routes/_authenticated/configuracoes.privacidade-politica'
+import { Route as AuthenticatedConfiguracoesReclamacaoRouteImport } from './routes/_authenticated/configuracoes.reclamacao'
 import { Route as AuthenticatedConfiguracoesTermosRouteImport } from './routes/_authenticated/configuracoes.termos'
 import { Route as AuthenticatedEstabelecimentoIdRouteImport } from './routes/_authenticated/estabelecimento.$id'
 import { Route as AuthenticatedOngOngIdRouteImport } from './routes/_authenticated/ong.$ongId'
@@ -130,6 +131,12 @@ const AuthenticatedConfiguracoesPrivacidadePoliticaRoute =
     path: '/configuracoes/privacidade-politica',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedConfiguracoesReclamacaoRoute =
+  AuthenticatedConfiguracoesReclamacaoRouteImport.update({
+    id: '/configuracoes/reclamacao',
+    path: '/configuracoes/reclamacao',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedConfiguracoesTermosRoute =
   AuthenticatedConfiguracoesTermosRouteImport.update({
     id: '/configuracoes/termos',
@@ -169,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/configuracoes/contato': typeof AuthenticatedConfiguracoesContatoRoute
   '/configuracoes/privacidade': typeof AuthenticatedConfiguracoesPrivacidadeRoute
   '/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
+  '/configuracoes/reclamacao': typeof AuthenticatedConfiguracoesReclamacaoRoute
   '/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
   '/ong/$ongId': typeof AuthenticatedOngOngIdRoute
@@ -192,6 +200,7 @@ export interface FileRoutesByTo {
   '/configuracoes/contato': typeof AuthenticatedConfiguracoesContatoRoute
   '/configuracoes/privacidade': typeof AuthenticatedConfiguracoesPrivacidadeRoute
   '/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
+  '/configuracoes/reclamacao': typeof AuthenticatedConfiguracoesReclamacaoRoute
   '/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
   '/ong/$ongId': typeof AuthenticatedOngOngIdRoute
@@ -217,6 +226,7 @@ export interface FileRoutesById {
   '/_authenticated/configuracoes/contato': typeof AuthenticatedConfiguracoesContatoRoute
   '/_authenticated/configuracoes/privacidade': typeof AuthenticatedConfiguracoesPrivacidadeRoute
   '/_authenticated/configuracoes/privacidade-politica': typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
+  '/_authenticated/configuracoes/reclamacao': typeof AuthenticatedConfiguracoesReclamacaoRoute
   '/_authenticated/configuracoes/termos': typeof AuthenticatedConfiguracoesTermosRoute
   '/_authenticated/estabelecimento/$id': typeof AuthenticatedEstabelecimentoIdRoute
   '/_authenticated/ong/$ongId': typeof AuthenticatedOngOngIdRoute
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/configuracoes/contato'
     | '/configuracoes/privacidade'
     | '/configuracoes/privacidade-politica'
+    | '/configuracoes/reclamacao'
     | '/configuracoes/termos'
     | '/estabelecimento/$id'
     | '/ong/$ongId'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/configuracoes/contato'
     | '/configuracoes/privacidade'
     | '/configuracoes/privacidade-politica'
+    | '/configuracoes/reclamacao'
     | '/configuracoes/termos'
     | '/estabelecimento/$id'
     | '/ong/$ongId'
@@ -289,6 +301,7 @@ export interface FileRouteTypes {
     | '/_authenticated/configuracoes/contato'
     | '/_authenticated/configuracoes/privacidade'
     | '/_authenticated/configuracoes/privacidade-politica'
+    | '/_authenticated/configuracoes/reclamacao'
     | '/_authenticated/configuracoes/termos'
     | '/_authenticated/estabelecimento/$id'
     | '/_authenticated/ong/$ongId'
@@ -431,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConfiguracoesPrivacidadePoliticaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/configuracoes/reclamacao': {
+      id: '/_authenticated/configuracoes/reclamacao'
+      path: '/configuracoes/reclamacao'
+      fullPath: '/configuracoes/reclamacao'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesReclamacaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/configuracoes/termos': {
       id: '/_authenticated/configuracoes/termos'
       path: '/configuracoes/termos'
@@ -476,6 +496,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedConfiguracoesContatoRoute: typeof AuthenticatedConfiguracoesContatoRoute
   AuthenticatedConfiguracoesPrivacidadeRoute: typeof AuthenticatedConfiguracoesPrivacidadeRoute
   AuthenticatedConfiguracoesPrivacidadePoliticaRoute: typeof AuthenticatedConfiguracoesPrivacidadePoliticaRoute
+  AuthenticatedConfiguracoesReclamacaoRoute: typeof AuthenticatedConfiguracoesReclamacaoRoute
   AuthenticatedConfiguracoesTermosRoute: typeof AuthenticatedConfiguracoesTermosRoute
   AuthenticatedEstabelecimentoIdRoute: typeof AuthenticatedEstabelecimentoIdRoute
   AuthenticatedOngOngIdRoute: typeof AuthenticatedOngOngIdRoute
@@ -501,6 +522,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedConfiguracoesPrivacidadeRoute,
   AuthenticatedConfiguracoesPrivacidadePoliticaRoute:
     AuthenticatedConfiguracoesPrivacidadePoliticaRoute,
+  AuthenticatedConfiguracoesReclamacaoRoute:
+    AuthenticatedConfiguracoesReclamacaoRoute,
   AuthenticatedConfiguracoesTermosRoute: AuthenticatedConfiguracoesTermosRoute,
   AuthenticatedEstabelecimentoIdRoute: AuthenticatedEstabelecimentoIdRoute,
   AuthenticatedOngOngIdRoute: AuthenticatedOngOngIdRoute,
