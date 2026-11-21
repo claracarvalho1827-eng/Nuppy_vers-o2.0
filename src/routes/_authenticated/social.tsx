@@ -33,6 +33,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   useSuspenseQuery,
+  useQuery,
   useMutation,
   useQueryClient,
   useInfiniteQuery,
@@ -81,7 +82,12 @@ const LS_BOOKMARKS = "nuppy:bookmarks";
 const LS_MUTED = "nuppy:videoMuted";
 
 /* ───────────────────────── Definição da rota ──────────────────────────── */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export const Route = createFileRoute("/_authenticated/social")({
+  // /social?post=<id>  -> abre o feed com aquele post em destaque no topo.
+  validateSearch: (s: Record<string, unknown>): { post?: string } =>
+    typeof s.post === "string" && UUID_RE.test(s.post) ? { post: s.post } : {},
   head: () => ({
     meta: [
       { title: "Feed — Nuppy" },
@@ -113,6 +119,7 @@ type Post = {
 
 /* ───────────────────────── Componente principal ───────────────────────── */
 function SocialPage() {
+  const { post: sharedId } = Route.useSearch() as { post?: string };
   return (
     <MobileShell>
       {/* Header fixo no topo: voltar | título | novo post */}
@@ -135,8 +142,11 @@ function SocialPage() {
         Suspense + useSuspenseQuery = enquanto a 1ª página carrega, mostra
         skeleton. Quando os dados chegarem, renderiza o Feed real.
       */}
+      {/* Post que chegou por link compartilhado (/social?post=<id>) */}
+      {sharedId && <SharedPost postId={sharedId} />}
+
       <Suspense fallback={<FeedSkeleton />}>
-        <Feed />
+        <Feed excludeId={sharedId} />
       </Suspense>
     </MobileShell>
   );
@@ -164,7 +174,7 @@ function FeedSkeleton() {
 }
 
 /* ───────────────────────── Feed (lista de posts) ──────────────────────── */
-function Feed() {
+function Feed({ excludeId }: { excludeId?: string }) {
   /*
    * useInfiniteQuery: TanStack Query carrega "páginas" sob demanda.
    * Cada página tem PAGE_SIZE posts. O cursor é o `created_at` do último item.
@@ -199,8 +209,8 @@ function Feed() {
 
   // Achata todas as páginas em um array linear para render.
   const posts = useMemo(
-    () => data?.pages.flatMap((p) => p) ?? [],
-    [data],
+    () => (data?.pages.flatMap((p) => p) ?? []).filter((p) => p.id !== excludeId),
+    [data, excludeId],
   );
 
   /*
@@ -219,7 +229,7 @@ function Feed() {
   }, [hasNextPage, fetchNextPage]);
 
   // Estado vazio: nenhum post no banco ainda.
-  if (posts.length === 0) {
+  if (posts.length === 0 && !excludeId) {
     return (
       <div className="p-10 text-center">
         <img
@@ -251,6 +261,79 @@ function Feed() {
         )}
       </div>
     </div>
+  );
+}
+
+/* ───────────────────────── Copiar para a área de transferência ────────── */
+/** Tenta a API moderna e, se o navegador bloquear, usa o método antigo. */
+async function copiarTexto(texto: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(texto);
+    return true;
+  } catch {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = texto;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+}
+
+/* ───────────────────────── Post compartilhado ─────────────────────────── */
+/** Mostra no topo o post de um link /social?post=<id>, mesmo que ele seja antigo
+ *  e não esteja nas primeiras páginas do feed. A chave começa com "feed" para que
+ *  curtir/comentar atualize este card também. */
+function SharedPost({ postId }: { postId: string }) {
+  const navigate = useNavigate();
+  const { data: post, isPending } = useQuery({
+    queryKey: ["feed", "shared", postId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select(
+          "id, author_id, media_url, media_type, caption, hashtags, created_at, profiles(username, avatar_url), likes(user_id), post_comments(id)",
+        )
+        .eq("id", postId)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as unknown as Post | null) ?? null;
+    },
+  });
+
+  return (
+    <section aria-label="Post compartilhado" className="border-b-4 border-primary/20">
+      <div className="flex items-center justify-between gap-3 px-4 py-2 bg-accent/60">
+        <p className="text-xs font-display text-brand flex items-center gap-1.5">
+          <Share2 className="size-3.5" /> Post compartilhado com você
+        </p>
+        <button
+          onClick={() => navigate({ to: "/social", search: {}, replace: true })}
+          className="text-xs font-display text-primary"
+        >
+          Ver o feed
+        </button>
+      </div>
+      {isPending ? (
+        <div className="p-4 animate-pulse">
+          <div className="aspect-[4/5] bg-muted rounded-2xl" />
+        </div>
+      ) : post ? (
+        <PostCard post={post} />
+      ) : (
+        <p className="p-6 text-center text-sm text-muted-foreground">
+          Este post não está mais disponível.
+        </p>
+      )}
+    </section>
   );
 }
 
@@ -314,19 +397,26 @@ function PostCard({ post }: { post: Post }) {
 
   /* ── Compartilhar (Web Share API + fallback) ──────────────────────── */
   async function share() {
-    const url = `${window.location.origin}/social#post-${post.id}`;
+    // Abre o feed com ESTE post em destaque (ver SharedPost).
+    const url = `${window.location.origin}/social?post=${post.id}`;
     const text = post.caption
       ? `${post.caption}\n— @${post.profiles?.username ?? "nuppy"} no Nuppy`
       : `Veja este ${isVideo ? "vídeo" : "post"} de @${post.profiles?.username ?? "nuppy"} no Nuppy 🐾`;
-    try {
-      if (navigator.share) await navigator.share({ title: "Nuppy", text, url });
-      else {
-        await navigator.clipboard.writeText(`${text}\n${url}`);
-        toast.success("Link copiado!");
+
+    // 1) Menu de compartilhar do aparelho (celular / alguns navegadores).
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title: "Nuppy", text, url });
+        return;
+      } catch (err) {
+        if ((err as DOMException)?.name === "AbortError") return; // a pessoa cancelou
+        // qualquer outro erro: cai para copiar o link
       }
-    } catch {
-      /* usuário cancelou o share — ignora silenciosamente */
     }
+
+    // 2) Copiar o link (computador).
+    if (await copiarTexto(`${text}\n${url}`)) toast.success("Link copiado!");
+    else toast.error("Não foi possível copiar. Copie o link: " + url);
   }
 
   /* ── Salvar / dessalvar (localStorage) ────────────────────────────── */
@@ -392,7 +482,7 @@ function PostCard({ post }: { post: Post }) {
                 <button
                   onClick={() => {
                     setShowMenu(false);
-                    navigate({ to: "/configuracoes", search: { tipo: "post", id: post.id } });
+                    navigate({ to: "/configuracoes/reclamacao", search: { tipo: "post", id: post.id } });
                   }}
                   className="w-full px-4 py-2.5 text-sm text-left hover:bg-accent flex items-center gap-2 text-destructive"
                 >
