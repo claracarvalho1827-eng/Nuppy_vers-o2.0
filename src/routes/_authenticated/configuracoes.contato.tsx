@@ -29,11 +29,11 @@ export const Route = createFileRoute("/_authenticated/configuracoes/contato")({
 
         <h2 className="font-display text-sm text-brand pt-2 px-1">Outros canais</h2>
 
-        <a href="mailto:contato@nuppy.app" className="nuppy-card p-4 flex items-center gap-3">
+        <a href="mailto:nuppy.contato@gmail.com" className="nuppy-card p-4 flex items-center gap-3">
           <Mail className="size-5 text-primary" />
           <div>
             <p className="font-display text-brand">E-mail</p>
-            <p className="text-xs text-muted-foreground">contato@nuppy.app</p>
+            <p className="text-xs text-muted-foreground">nuppy.contato@gmail.com</p>
           </div>
         </a>
         <a href="https://instagram.com/nuppy.app" target="_blank" rel="noreferrer" className="nuppy-card p-4 flex items-center gap-3">
