@@ -38,20 +38,6 @@ function HomePage() {
         </div>
       </header>
 
-      {/* BUSCA */}
-      <div className="px-4 mt-4">
-        <label className="relative block">
-          <Search className="size-4 absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input
-            placeholder="Buscar..."
-            className="w-full rounded-full bg-card border border-border pl-11 pr-12 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30"
-          />
-          <button className="absolute right-1.5 top-1/2 -translate-y-1/2 size-9 rounded-full bg-primary grid place-items-center text-primary-foreground">
-            <Mic className="size-4" />
-          </button>
-        </label>
-      </div>
-
       {/* DESTAQUE */}
       <section className="px-4 mt-6">
         <h2 className="font-display text-lg text-brand mb-2">Destaque</h2>
@@ -99,7 +85,7 @@ function HomePage() {
               <img src={peludinho} alt="" className="size-7 object-contain" />
               <h2 className="font-display text-lg text-brand">ONGs</h2>
             </div>
-            <Link to="/ongs" className="text-sm font-display text-primary">Ver todas →</Link>
+            <Link to="/estabelecimentos" className="text-sm font-display text-primary">Ver todas →</Link>
           </div>
           <Suspense fallback={<div className="h-40 mt-3 grid grid-cols-2 gap-3"><Skel /><Skel /></div>}>
             <OngsList />
