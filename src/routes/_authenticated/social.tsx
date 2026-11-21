@@ -30,7 +30,7 @@
  *  • Texto dos botões      -> strings em pt-BR espalhadas (use Ctrl+F).
  * ========================================================================== */
 
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   useSuspenseQuery,
   useMutation,
@@ -60,6 +60,7 @@ import {
   MoreHorizontal,
   Trash2,
   Sparkles,
+  Flag,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/MobileShell";
@@ -256,6 +257,7 @@ function Feed() {
 /* ───────────────────────── Card de um post ────────────────────────────── */
 function PostCard({ post }: { post: Post }) {
   const qc = useQueryClient();
+  const navigate = useNavigate();
 
   // ID do usuário logado (precisa pra saber se curtiu e pra excluir).
   const [userId, setUserId] = useState<string | null>(null);
@@ -382,6 +384,19 @@ function PostCard({ post }: { post: Post }) {
                   className="w-full px-4 py-2.5 text-sm text-left hover:bg-accent flex items-center gap-2 text-destructive"
                 >
                   <Trash2 className="size-4" /> Excluir
+                </button>
+              )}
+              {/* Denunciar: só em posts de outras pessoas. Abre a tela de
+                  reclamação já preenchida com este post. */}
+              {userId && !isOwner && (
+                <button
+                  onClick={() => {
+                    setShowMenu(false);
+                    navigate({ to: "/configuracoes", search: { tipo: "post", id: post.id } });
+                  }}
+                  className="w-full px-4 py-2.5 text-sm text-left hover:bg-accent flex items-center gap-2 text-destructive"
+                >
+                  <Flag className="size-4" /> Denunciar
                 </button>
               )}
             </div>

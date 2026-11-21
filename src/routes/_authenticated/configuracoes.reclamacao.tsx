@@ -20,7 +20,7 @@
  *    • até 5 reclamações pendentes por usuário
  *    • até 10 reclamações por dia
  * ========================================================================== */
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -69,7 +69,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 type ReclamacaoSearch = { tipo?: RefTipo; id?: string };
 
-export const Route = createFileRoute("/_authenticated/configuracoes/reclamacao")({
+export const Route = createFileRoute("/_authenticated/configuracoes/reclamacao" as never)({
   head: () => ({ meta: [{ title: "Enviar reclamação — Nuppy" }] }),
   // ?tipo=post&id=<uuid>  → modo denúncia. Valores inválidos são ignorados.
   validateSearch: (s: Record<string, unknown>): ReclamacaoSearch => {
@@ -112,6 +112,7 @@ function mensagemDeErro(err: unknown): string {
 /* ---------- página ---------- */
 function ReclamacaoPage() {
   const navigate = useNavigate();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { tipo, id: refId } = Route.useSearch() as ReclamacaoSearch;
   const ref = tipo && refId ? { tipo, id: refId } : null;
@@ -174,11 +175,15 @@ function ReclamacaoPage() {
       if (error) throw error;
     },
     onSuccess: async () => {
-      toast.success("Reclamação enviada");
       setMensagem("");
       setErro(null);
-      if (ref) navigate({ to: ".", search: {}, replace: true });
       await queryClient.invalidateQueries({ queryKey: ["minhas-reclamacoes"] });
+      if (ref) {
+        toast.success("Denúncia enviada");
+        voltarDaDenuncia();
+        return;
+      }
+      toast.success("Reclamação enviada");
       setAba("minhas");
     },
     onError: (err) => {
@@ -198,19 +203,36 @@ function ReclamacaoPage() {
     enviar.mutate();
   }
 
+  /* Na denúncia, "voltar" leva de volta ao post/comentário (feed), não ao Contato. */
+  function voltarDaDenuncia() {
+    if (window.history.length > 1) router.history.back();
+    else navigate({ to: "/social" });
+  }
+
   const hintAssunto = ASSUNTOS.find((a) => a.value === assunto)?.hint;
 
   return (
     <MobileShell>
       <header className="px-4 pt-4 grid grid-cols-[40px_1fr_40px] items-center mb-4">
-        <Link
-          to="/configuracoes/contato"
-          aria-label="Voltar"
-          className="size-9 grid place-items-center rounded-full hover:bg-accent"
-        >
-          <ChevronLeft className="size-5 text-brand" />
-        </Link>
-        <h1 className="font-display text-lg text-brand text-center">Enviar reclamação</h1>
+        {ref ? (
+          <button
+            type="button"
+            onClick={voltarDaDenuncia}
+            aria-label="Voltar"
+            className="size-9 grid place-items-center rounded-full hover:bg-accent"
+          >
+            <ChevronLeft className="size-5 text-brand" />
+          </button>
+        ) : (
+          <Link
+            to="/configuracoes/contato"
+            aria-label="Voltar"
+            className="size-9 grid place-items-center rounded-full hover:bg-accent"
+          >
+            <ChevronLeft className="size-5 text-brand" />
+          </Link>
+        )}
+        <h1 className="font-display text-lg text-brand text-center">{ref ? "Denunciar" : "Enviar reclamação"}</h1>
         <span />
       </header>
 
@@ -404,7 +426,7 @@ function ReclamacaoPage() {
               </>
             ) : (
               <>
-                <Send className="size-5" /> Enviar reclamação
+                <Send className="size-5" /> {ref ? "Enviar denúncia" : "Enviar reclamação"}
               </>
             )}
           </button>
