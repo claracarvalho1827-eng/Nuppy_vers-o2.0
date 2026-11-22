@@ -7,8 +7,6 @@
  *    • ENTRAR COM GOOGLE (via Supabase Auth / Google OAuth nativo)
  *
  *  ORGANIZAÇÃO DA UI (o que cada bloco muda visualmente):
- *    - Hero (imagem topo) — mostrado só no modo LOGIN.
- *    - Logo — sempre visível.
  *    - Card "nuppy-card" — caixa branca com todos os campos.
  *    - Botão principal .nuppy-btn-primary — cor LARANJA (--primary #E49935).
  *    - Botão Google .nuppy-btn-ghost — fundo transparente com borda.
@@ -209,12 +207,16 @@ function AuthPage() {
   return (
     <div className="min-h-screen w-full flex justify-center nuppy-bg">
       {/* Container central com largura máxima estilo mobile */}
-      <main id="conteudo" tabIndex={-1} className="relative w-full max-w-[480px] min-h-screen px-6 pt-6 pb-10 flex flex-col outline-none">
+      <main
+        id="conteudo"
+        tabIndex={-1}
+        className="relative w-full max-w-[480px] min-h-screen px-6 py-6 flex flex-col justify-center outline-none"
+      >
         {/* HERO — só no login (visual mais convidativo) */}
        
 
         {/* CARD principal — tudo dentro dessa "caixa branca" */}
-        <div className="mt-10 nuppy-card p-6">
+        <div className="nuppy-card p-6">
           <h1 className="text-center font-display text-2xl text-brand">
             {mode === "login" ? "Bem-vindo! " : "Crie sua conta"}
           </h1>
