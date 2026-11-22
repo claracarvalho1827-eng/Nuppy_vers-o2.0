@@ -183,7 +183,7 @@ function Body() {
       <div className="px-4 pb-28 space-y-3">
         {filtered.length === 0 && (
           <div className="nuppy-card p-8 text-center text-muted-foreground">
-            <div className="text-5xl mb-2">🔎</div>
+            <div className="text-5xl mb-2"></div>
             Nenhum estabelecimento encontrado.
           </div>
         )}
@@ -242,7 +242,7 @@ function Body() {
                     </span>
                   )}
                 </div>
-              )}
+              )} 
 
               {p.city && (
                 <p className="text-[11px] text-muted-foreground flex items-center gap-1 mt-2">

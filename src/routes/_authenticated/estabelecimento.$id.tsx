@@ -44,7 +44,9 @@ export const Route = createFileRoute("/_authenticated/estabelecimento/$id")({
       <MobileShell>
         <div className="p-8 text-center">
           <p className="text-brand font-display">Algo deu errado.</p>
-          <p className="text-xs text-muted-foreground mt-1">{error.message}</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {error instanceof Error ? error.message : String(error)}
+          </p>
           <button
             onClick={() => {
               reset();
