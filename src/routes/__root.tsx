@@ -10,6 +10,9 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import icon32 from "../assets/nuppy-icon-32.png?url";
+import icon16 from "../assets/nuppy-icon-16.png?url";
+import icon180 from "../assets/nuppy-icon-180.png?url";
 import a11yCss from "../../a11y/a11y.css?url";
 import { AccessibilityKit } from "../components/AccessibilityKit";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -134,6 +137,9 @@ export const Route =
         },
       ],
       links: [
+        { rel: "icon", type: "image/png", sizes: "32x32", href: icon32 },
+        { rel: "icon", type: "image/png", sizes: "16x16", href: icon16 },
+        { rel: "apple-touch-icon", sizes: "180x180", href: icon180 },
         { rel: "stylesheet", href: appCss },
         { rel: "stylesheet", href: a11yCss },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
