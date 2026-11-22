@@ -48,17 +48,8 @@ const placesQuery = {
     return data ?? [];
   },
 };
-const CAT_EMOJI: Record<string, string> = {
-  ONG: "\u{1F43E}",
-  Banho: "\u{1F6C1}",
-  Hotel: "\u{1F3E8}",
-  Alimentação: "\u{1F356}",
-  Veterinário: "\u{1FA7A}",
-  "Pet Shop": "\u{1F6CD}\uFE0F",
-  Parque: "\u{1F333}",
-  "Café Pet": "\u2615",
-  Adestrador: "\u{1F9AE}",
-};
+// Sem emojis: os marcadores do mapa usam o pin padrão do Google Maps.
+const CAT_EMOJI: Record<string, string> = {};
 
 declare global {
   interface Window {
@@ -224,21 +215,10 @@ function MapBody() {
     if (!ready || !mapInstance.current) return;
     markersRef.current.forEach((m) => m.setMap(null));
     markersRef.current = filtered.map((p) => {
-      const emoji = CAT_EMOJI[p.category] || "\u{1F43E}";
-      // IMPORTANTE: nunca passar label com text vazio — o Google Maps mostra "[object Object]".
       const marker = new window.google.maps.Marker({
         position: { lat: p.lat, lng: p.lng },
         map: mapInstance.current!,
         title: p.name,
-        icon: {
-          path: window.google.maps.SymbolPath.CIRCLE,
-          scale: 17,
-          fillColor: "#e8992e",
-          fillOpacity: 1,
-          strokeColor: "#ffffff",
-          strokeWeight: 3,
-        },
-        label: { text: emoji, fontSize: "16px" },
         animation: window.google.maps.Animation.DROP,
       });
       marker.addListener("click", () => {
