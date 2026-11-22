@@ -419,14 +419,6 @@ function PostCard({ post }: { post: Post }) {
     else toast.error("Não foi possível copiar. Copie o link: " + url);
   }
 
-  /* ── Salvar / dessalvar (localStorage) ────────────────────────────── */
-  function toggleBookmark() {
-    const next = !bookmarked;
-    setBookmarked(next);
-    saveBookmark(post.id, next);
-    toast.success(next ? "Salvo nos favoritos" : "Removido dos favoritos");
-  }
-
   return (
     <article id={`post-${post.id}`} className="bg-card">
       {/* ── Cabeçalho do post: avatar, @, hora, menu ─────────────────── */}
@@ -435,7 +427,7 @@ function PostCard({ post }: { post: Post }) {
           {post.profiles?.avatar_url ? (
             <img src={post.profiles.avatar_url} alt="" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-lg">🐾</span>
+            <span className="text-lg"></span>
           )}
         </div>
         <div className="flex-1 min-w-0">
@@ -528,10 +520,6 @@ function PostCard({ post }: { post: Post }) {
         </ActionButton>
         <ActionButton onClick={share} label="Compartilhar">
           <Share2 className="size-6" />
-        </ActionButton>
-        <div className="flex-1" />
-        <ActionButton onClick={toggleBookmark} active={bookmarked} label="Salvar">
-          <Bookmark className={"size-6 " + (bookmarked ? "fill-current" : "")} />
         </ActionButton>
       </div>
 
@@ -751,7 +739,7 @@ function NewPostButton() {
             <div>
               <h3 className="font-display text-xl text-brand">Novo post</h3>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Compartilhe um momento do seu pet 🐾
+                Compartilhe um momento do seu pet 
               </p>
             </div>
 
