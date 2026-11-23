@@ -152,6 +152,9 @@
   --brand: oklch(0.85 0.10 60);
   --brand-soft: oklch(0.75 0.12 55);
   --love: oklch(0.7 0.22 20);
+  --gradient-warm:    linear-gradient(135deg, oklch(0.30 0.04 50) 0%, oklch(0.26 0.035 50) 60%, oklch(0.36 0.06 60) 100%);
+  --gradient-primary: linear-gradient(135deg, oklch(0.78 0.17 60) 0%, oklch(0.72 0.14 60) 100%);
+  --gradient-brand:   linear-gradient(135deg, oklch(0.55 0.10 55) 0%, oklch(0.40 0.07 50) 100%);
 }
 
 /* ============================================================================
