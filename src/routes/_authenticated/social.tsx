@@ -401,7 +401,7 @@ function PostCard({ post }: { post: Post }) {
     const url = `${window.location.origin}/social?post=${post.id}`;
     const text = post.caption
       ? `${post.caption}\n— @${post.profiles?.username ?? "nuppy"} no Nuppy`
-      : `Veja este ${isVideo ? "vídeo" : "post"} de @${post.profiles?.username ?? "nuppy"} no Nuppy 🐾`;
+      : `Veja este ${isVideo ? "vídeo" : "post"} de @${post.profiles?.username ?? "nuppy"} no Nuppy`;
 
     // 1) Menu de compartilhar do aparelho (celular / alguns navegadores).
     if (typeof navigator.share === "function") {
